@@ -1,7 +1,3 @@
-Here is the updated report based on your code:
-
- CS 442 - Week 1 Lab Task
-
 # CS 442 - Week 1 Lab Task
 
  ## Enhance the Counter App
