@@ -1,13 +1,7 @@
-# MAD: Mobile Application Development 
+# MAD: Mobile Application Development | Tasks Branch
 
 > WIP: work in progress. 
 
-This repository hosts my coding tasks, projects and assignments related to my **Mobile Application Development** using **Flutter**.
+This branch works as a feature branch for MAD tasks, any new task will be coded into this branch and then synthesized to the `main` branch.
 
-# LICENSE
-
-All code & work is completely free under MIT LICENSE.
-
-### Course Instructor
-
-- [**Muddassar Azam Sindhu**](https://cs.qau.edu.pk/profiles/muddassar.htm)
+Switch to [`main`](https://github.com/saqibbedar/mad/tree/main) branch for latest changes.
