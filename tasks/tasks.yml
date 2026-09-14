@@ -1,0 +1,7 @@
+name: tasks
+description: The tasks directory is a curated list of subdirectories with a number prefix starting from 1...n along with task date.
+features: 
+  - curate list
+  - extends low to high (low=basic, high=advance | as dirs will grow)
+  - task date (easily look at the specific task and its date easy for personal usecase)
+  - overall, easy accessibility to any task 
