@@ -73,6 +73,7 @@ void part1() {
 String formatTitle(String title, [String? author]) {
   return author == null ? title : '$title by $author';
 }
+
 Map<String, dynamic> makeBook({required String title, required String author, 
 int year = 2024, int copies = 1}) {
   return {
@@ -86,6 +87,56 @@ int year = 2024, int copies = 1}) {
 
 void part2() {
   print('--- Part 2 ---');
+
+  // 2.1
+  List<String> bookNames = ['Dart in Action', 'Clean Code'];
+  print(
+    transformAll(bookNames, (String s) {
+      return s.toUpperCase();
+    }),
+  );
+  print(transformAll(bookNames, (s) => '$s!'));
+
+  // 2.2
+  var desk1 = makeCounter();
+  var desk2 = makeCounter();
+  print(desk1());
+  print(desk1());
+  print(desk1());
+  print(desk2());
+
+  // 2.3
+  var studentFee = makeFeeCalculator(0.25);
+  var staffFee = makeFeeCalculator(0.10);
+  print('Student fee: ${studentFee(4)}');
+  print('Staff fee: ${staffFee(4)}');
+
+  // 2.4
+  print('Sum of digits: ${sumDigits(17)}');
+}
+
+// part2 (Utility functions)
+List<String> transformAll(List<String> items, String Function(String) fn) {
+  return items.map(fn).toList();
+}
+
+int Function() makeCounter() {
+  int count = 0;
+  return () {
+    count++;
+    return count;
+  };
+}
+
+double Function(int) makeFeeCalculator(double rate) {
+  return (int days) => days * rate;
+}
+
+int sumDigits(int n) {
+  if (n < 10) {
+    return n;
+  }
+  return (n % 10) + sumDigits(n ~/ 10);
 }
 
 void part3() {
