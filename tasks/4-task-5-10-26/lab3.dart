@@ -55,6 +55,17 @@ class MenuItem {
       this.price = priceFloor;
     }
   }
+
+  // Think: The floor logic did not run because MenuItem.free is an independent 
+  // constructor and does not execute the default constructor's body.
+
+  // Task 3.1: Named constructor for free items
+  MenuItem.free(this.name) : price = 0;
+
+  // Task 3.2: Named constructor parsing 'name:price' string
+  MenuItem.fromString(String text)
+    : name = text.split(':')[0],
+      price = int.parse(text.split(':')[1]);
 }
 
 void main() {
@@ -100,6 +111,13 @@ void step2() {
 
 void step3() {
   print('--- Step 3 ---');
+
+  final freebie = MenuItem.free('Water');
+  final int i = (u + 2) % 10;
+  final parsed = MenuItem.fromString('${menu[i]}:${priceOf(i)}');
+  print('Step 3: ${freebie.name} Rs ${freebie.price}');
+  print('Step 3: ${parsed.name} Rs ${parsed.price}');
+  print('Step 3: floor=$priceFloor, free price=${freebie.price}');
 }
 
 void step4() {
