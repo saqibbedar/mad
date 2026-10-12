@@ -1,30 +1,37 @@
 // library_lab.dart  -  Campus Library System
 // Name: Muhammad Saqib   Roll no: 04072313037
 
-const String rollNo = '04072313037';   // e.g. '21F-0347'
+const String rollNo = '04072313037'; // e.g. '21F-0347'
 
 // ===== Seeded settings (generated from YOUR roll number). Do not edit. =====
 final int seed = int.parse(rollNo.substring(rollNo.length - 2));
-final int t = seed ~/ 10;   // tens digit
-final int u = seed % 10;    // units digit
+final int t = seed ~/ 10; // tens digit
+final int u = seed % 10; // units digit
 
 const List<String> titles = [
-  'Dart Basics', 'Flutter In Action', 'Data Structures', 'Operating Systems',
-  'Mobile Design', 'Clean Code', 'Algorithms Unlocked', 'Computer Networks',
-  'Database Systems', 'Software Testing',
+  'Dart Basics',
+  'Flutter In Action',
+  'Data Structures',
+  'Operating Systems',
+  'Mobile Design',
+  'Clean Code',
+  'Algorithms Unlocked',
+  'Computer Networks',
+  'Database Systems',
+  'Software Testing',
 ];
 
-int yearOf(int i) => 1995 + 2 * i + t;      // publication year of titles[i]
-final int feePerDay = 5 + t;                // late fee per day, in rupees
-final int daysLate = 3 + (t + u) % 6;       // normal number of days late
-final int daysBig = 10 + u;                 // a long overdue period
-final int feeCap = 150 + 10 * t;            // no single fee may exceed this
-final int renewLimit = 1 + t % 3;           // renewals allowed per item
-final int renewAttempts = 2 + u;            // renewal attempts made in Step 5
-final int shelfSize = 3 + u % 4;            // items on the shelf in Steps 9-10
+int yearOf(int i) => 1995 + 2 * i + t; // publication year of titles[i]
+final int feePerDay = 5 + t; // late fee per day, in rupees
+final int daysLate = 3 + (t + u) % 6; // normal number of days late
+final int daysBig = 10 + u; // a long overdue period
+final int feeCap = 150 + 10 * t; // no single fee may exceed this
+final int renewLimit = 1 + t % 3; // renewals allowed per item
+final int renewAttempts = 2 + u; // renewal attempts made in Step 5
+final int shelfSize = 3 + u % 4; // items on the shelf in Steps 9-10
 // ===========================================================================
 
-// Think: Abstract classes cannot be instantiated because they represent incomplete 
+// Think: Abstract classes cannot be instantiated because they represent incomplete
 // blueprints with unimplemented methods (e.g., lateFee has no body).
 // Task 1.1: Base class
 abstract class LibraryItem {
@@ -42,7 +49,7 @@ abstract class LibraryItem {
   // Task 2.1: Base describe method
   String describe() => '$title ($year)';
 
-   // Task 3.1: Abstract method
+  // Task 3.1: Abstract method
   int lateFee(int days);
 }
 
@@ -62,16 +69,16 @@ List<LibraryItem> buildShelf() {
   return items;
 }
 
-// Think: `item.pages` is a compile-time error because static type checking relies on 
+// Think: `item.pages` is a compile-time error because static type checking relies on
 // the variable's declared type (LibraryItem), which does not declare `pages`.
 
 // Task 1.2: Subclass with super parameters
-// Think: `extends Borrowable` would have provided concrete code inheritance for free, 
-// but Dart only allows extending a single superclass (Book already extends LibraryItem). 
+// Think: `extends Borrowable` would have provided concrete code inheritance for free,
+// but Dart only allows extending a single superclass (Book already extends LibraryItem).
 // `implements` allows Book to fulfill the Borrowable contract as a secondary interface.
 
 // 5.2
-// Think: A mixin shares code sideways between Book and Dvd without polluting 
+// Think: A mixin shares code sideways between Book and Dvd without polluting
 // LibraryItem, which would have incorrectly given Magazine renewal capabilities.
 class Book extends LibraryItem with Renewable implements Borrowable {
   final int pages;
@@ -104,7 +111,7 @@ Book mainBook() {
 
 // Task 2.3
 
-// Think: Without @override, mistyping the name as `descibe()` would silently declare 
+// Think: Without @override, mistyping the name as `descibe()` would silently declare
 // a new method instead of overriding, causing calls to `describe()` to run the parent's version.
 class Magazine extends LibraryItem {
   final int issue;
@@ -149,7 +156,6 @@ abstract class Borrowable {
   void giveBack();
 }
 
-
 // Task 5.1: Mixin for renewal behavior
 mixin Renewable {
   int renewals = 0;
@@ -164,7 +170,7 @@ mixin Renewable {
 }
 
 // Task 6
-// Think: MemberType.student provides compile-time safety, autocompletion, 
+// Think: MemberType.student provides compile-time safety, autocompletion,
 // and exhaustiveness checking in switch statements, avoiding silent typo bugs caused by raw strings.
 // Task 6.1: Enhanced Enum
 enum MemberType {
@@ -181,9 +187,8 @@ enum MemberType {
   int applyDiscount(int fee) => fee - (fee * discountPercent ~/ 100);
 }
 
-
 // Task 7
-// Think: Writing `72.rs` enables dot-chaining and fluent readability, 
+// Think: Writing `72.rs` enables dot-chaining and fluent readability,
 // and integrates with IDE autocomplete, avoiding nested function wrappers like `rs(fee)`.
 // Task 7.1: Extension methods on existing types
 extension MoneyText on int {
@@ -200,7 +205,7 @@ extension ShelfMath on List<LibraryItem> {
 }
 
 // Task 8
-// Think: Without overriding hashCode, equal objects have different identity hashCodes, 
+// Think: Without overriding hashCode, equal objects have different identity hashCodes,
 // causing hash-based collections like Set and Map to store duplicates (set size becomes 3 instead of 2).
 // Task 8.1: Fine class with overloaded operators and value equality
 class Fine {
