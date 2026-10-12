@@ -140,6 +140,24 @@ mixin Renewable {
   }
 }
 
+// Task 6
+// Think: MemberType.student provides compile-time safety, autocompletion, 
+// and exhaustiveness checking in switch statements, avoiding silent typo bugs caused by raw strings.
+// Task 6.1: Enhanced Enum
+enum MemberType {
+  student(3, 50),
+  faculty(10, 20),
+  guest(1, 0);
+
+  final int maxLoans;
+  final int discountPercent;
+
+  const MemberType(this.maxLoans, this.discountPercent);
+
+  // Computes fee minus discount percentage using integer division (~/)
+  int applyDiscount(int fee) => fee - (fee * discountPercent ~/ 100);
+}
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
   step1();
@@ -227,7 +245,15 @@ void step5() {
 
 //=========== Step 6 ===========
 
-void step6() { print('--- Step 6 ---'); }
+void step6() {
+  print('--- Step 6 ---');
+  final type = MemberType.values[seed % 3];
+  final fee = mainBook().lateFee(daysLate);
+
+  print('Step 6: member type = ${type.name} (index ${type.index})');
+  print('Step 6: max loans = ${type.maxLoans}');
+  print('Step 6: book fee $fee -> ${type.applyDiscount(fee)} after discount');
+}
 
 //=========== Step 7 ===========
 
