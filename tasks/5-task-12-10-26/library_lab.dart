@@ -46,7 +46,11 @@ abstract class LibraryItem {
 // Think: `extends Borrowable` would have provided concrete code inheritance for free, 
 // but Dart only allows extending a single superclass (Book already extends LibraryItem). 
 // `implements` allows Book to fulfill the Borrowable contract as a secondary interface.
-class Book extends LibraryItem implements Borrowable {
+
+// 5.2
+// Think: A mixin shares code sideways between Book and Dvd without polluting 
+// LibraryItem, which would have incorrectly given Magazine renewal capabilities.
+class Book extends LibraryItem with Renewable implements Borrowable {
   final int pages;
   bool _out = false; // private state tracking loan status
 
@@ -98,7 +102,7 @@ Magazine mainMagazine() {
 }
 
 // Task 3.2
-class Dvd extends LibraryItem {
+class Dvd extends LibraryItem with Renewable {
   final int minutes;
 
   Dvd(super.title, super.year, this.minutes);
@@ -120,6 +124,20 @@ abstract class Borrowable {
   bool get isAvailable;
   void borrow();
   void giveBack();
+}
+
+
+// Task 5.1: Mixin for renewal behavior
+mixin Renewable {
+  int renewals = 0;
+
+  bool renew(int limit) {
+    if (renewals >= limit) {
+      return false;
+    }
+    renewals++;
+    return true;
+  }
 }
 
 void main() {
@@ -191,7 +209,21 @@ void step4() {
 
 //=========== Step 5 ===========
 
-void step5() { print('--- Step 5 ---'); }
+void step5() {
+  print('--- Step 5 ---');
+  final book = mainBook();
+  int ok = 0;
+
+  for (int i = 0; i < renewAttempts; i++) {
+    if (book.renew(renewLimit)) {
+      ok++;
+    }
+  }
+
+  print('Step 5: renewed $ok of $renewAttempts attempts (limit $renewLimit)');
+  print('Step 5: renew once more? ${book.renew(renewLimit)}');
+  print('Step 5: dvd can renew too? ${mainDvd().renew(1)}');
+}
 
 //=========== Step 6 ===========
 
