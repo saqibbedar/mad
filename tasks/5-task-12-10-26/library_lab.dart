@@ -43,17 +43,31 @@ abstract class LibraryItem {
 // the variable's declared type (LibraryItem), which does not declare `pages`.
 
 // Task 1.2: Subclass with super parameters
-class Book extends LibraryItem {
+// Think: `extends Borrowable` would have provided concrete code inheritance for free, 
+// but Dart only allows extending a single superclass (Book already extends LibraryItem). 
+// `implements` allows Book to fulfill the Borrowable contract as a secondary interface.
+class Book extends LibraryItem implements Borrowable {
   final int pages;
+  bool _out = false; // private state tracking loan status
+
   Book(super.title, super.year, this.pages);
 
   // Task 2.2: Reuses parent's describe via super.describe()
   @override
   String describe() => '${super.describe()}, $pages pages';
 
-  // Task 3.2: Book late fee
   @override
   int lateFee(int days) => days * feePerDay;
+
+  // Task 4.2: Implementing Borrowable contract
+  @override
+  bool get isAvailable => !_out;
+
+  @override
+  void borrow() => _out = true;
+
+  @override
+  void giveBack() => _out = false;
 }
 
 // Task 1.3: Top-level (utility) function
@@ -101,6 +115,12 @@ Dvd mainDvd() {
   return Dvd(titles[i], yearOf(i), 90 + seed % 40);
 }
 
+// Task 4.1: Abstract contract
+abstract class Borrowable {
+  bool get isAvailable;
+  void borrow();
+  void giveBack();
+}
 
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
@@ -153,7 +173,21 @@ void step3() {
 
 //=========== Step 4 ===========
 
-void step4() { print('--- Step 4 ---'); }
+void step4() {
+  print('--- Step 4 ---');
+  final book = mainBook();
+
+  print('Step 4: available? ${book.isAvailable}');
+  book.borrow();
+  print('Step 4: after borrow? ${book.isAvailable}');
+  book.giveBack();
+  print('Step 4: after return? ${book.isAvailable}');
+
+  final items = <LibraryItem>[book, mainMagazine(), mainDvd()];
+  for (final item in items) {
+    print('Step 4: ${item.runtimeType} borrowable? ${item is Borrowable}');
+  }
+}
 
 //=========== Step 5 ===========
 
