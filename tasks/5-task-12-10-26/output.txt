@@ -135,7 +135,11 @@ Step 8: equal copies? true
 Step 8: set size = 2
 
 //=========== Step 9 ===========
-
+--- Step 9 ---
+Step 9: items created = 12
+Step 9: capped fee = 136 (cap 180)
+Step 9: const copies identical? true
+Step 9: new copies identical? false
 
 //=========== Step 10 ===========
 
