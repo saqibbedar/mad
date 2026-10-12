@@ -29,6 +29,9 @@ class LibraryItem {
   final String title;
   final int year;
   LibraryItem(this.title, this.year);
+
+  // Task 2.1: Base describe method
+  String describe() => '$title ($year)';
 }
 
 // Think: `item.pages` is a compile-time error because static type checking relies on 
@@ -38,11 +41,33 @@ class LibraryItem {
 class Book extends LibraryItem {
   final int pages;
   Book(super.title, super.year, this.pages);
+
+  // Task 2.2: Reuses parent's describe via super.describe()
+  @override
+  String describe() => '${super.describe()}, $pages pages';
 }
 
 // Task 1.3: Top-level (utility) function
 Book mainBook() {
   return Book(titles[u], yearOf(u), 100 + 3 * seed);
+}
+
+// Task 2.3
+
+// Think: Without @override, mistyping the name as `descibe()` would silently declare 
+// a new method instead of overriding, causing calls to `describe()` to run the parent's version.
+class Magazine extends LibraryItem {
+  final int issue;
+
+  Magazine(super.title, super.year, this.issue);
+
+  @override
+  String describe() => '${super.describe()}, issue $issue';
+}
+
+Magazine mainMagazine() {
+  final int i = (u + 1) % 10;
+  return Magazine(titles[i], yearOf(i), 1 + (t + u) % 12);
 }
 
 
@@ -74,7 +99,11 @@ void step1() {
 
 //=========== Step 2 ===========
 
-void step2() { print('--- Step 2 ---'); }
+void step2() {
+  print('--- Step 2 ---');
+  print('Step 2: ${mainBook().describe()}');
+  print('Step 2: ${mainMagazine().describe()}');
+}
 
 //=========== Step 3 ===========
 
