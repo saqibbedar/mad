@@ -28,15 +28,38 @@ final int shelfSize = 3 + u % 4;            // items on the shelf in Steps 9-10
 // blueprints with unimplemented methods (e.g., lateFee has no body).
 // Task 1.1: Base class
 abstract class LibraryItem {
+  // Task 9.1: Static counter and helper method
+  static int created = 0;
+
+  static int capFee(int fee) => fee > feeCap ? feeCap : fee;
+
   final String title;
   final int year;
-  LibraryItem(this.title, this.year);
+  LibraryItem(this.title, this.year) {
+    created++;
+  }
 
   // Task 2.1: Base describe method
   String describe() => '$title ($year)';
 
    // Task 3.1: Abstract method
   int lateFee(int days);
+}
+
+// Task 9.2: Function to build a shelf of polymorphic items
+List<LibraryItem> buildShelf() {
+  final List<LibraryItem> items = [];
+  for (int k = 0; k < shelfSize; k++) {
+    final int i = (u + k) % 10;
+    if (k % 3 == 0) {
+      items.add(Book(titles[i], yearOf(i), 100 + 3 * seed));
+    } else if (k % 3 == 1) {
+      items.add(Magazine(titles[i], yearOf(i), 1 + (t + k) % 12));
+    } else {
+      items.add(Dvd(titles[i], yearOf(i), 90 + seed % 40));
+    }
+  }
+  return items;
 }
 
 // Think: `item.pages` is a compile-time error because static type checking relies on 
@@ -326,7 +349,22 @@ void step8() {
 
 //=========== Step 9 ===========
 
-void step9() { print('--- Step 9 ---'); }
+void step9() {
+  print('--- Step 9 ---');
+  LibraryItem.created = 0;
+
+  buildShelf(); // first build
+  final shelf = buildShelf(); // second build
+
+  print('Step 9: items created = ${LibraryItem.created}');
+  print(
+    'Step 9: capped fee = ${LibraryItem.capFee(shelf.first.lateFee(daysBig))} (cap $feeCap)',
+  );
+  print(
+    'Step 9: const copies identical? ${identical(const Fine(10), const Fine(10))}',
+  );
+  print('Step 9: new copies identical? ${identical(Fine(10), Fine(10))}');
+}
 
 //=========== Step 10 ===========
 
