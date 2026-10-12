@@ -24,14 +24,19 @@ final int renewAttempts = 2 + u;            // renewal attempts made in Step 5
 final int shelfSize = 3 + u % 4;            // items on the shelf in Steps 9-10
 // ===========================================================================
 
+// Think: Abstract classes cannot be instantiated because they represent incomplete 
+// blueprints with unimplemented methods (e.g., lateFee has no body).
 // Task 1.1: Base class
-class LibraryItem {
+abstract class LibraryItem {
   final String title;
   final int year;
   LibraryItem(this.title, this.year);
 
   // Task 2.1: Base describe method
   String describe() => '$title ($year)';
+
+   // Task 3.1: Abstract method
+  int lateFee(int days);
 }
 
 // Think: `item.pages` is a compile-time error because static type checking relies on 
@@ -45,6 +50,10 @@ class Book extends LibraryItem {
   // Task 2.2: Reuses parent's describe via super.describe()
   @override
   String describe() => '${super.describe()}, $pages pages';
+
+  // Task 3.2: Book late fee
+  @override
+  int lateFee(int days) => days * feePerDay;
 }
 
 // Task 1.3: Top-level (utility) function
@@ -63,11 +72,33 @@ class Magazine extends LibraryItem {
 
   @override
   String describe() => '${super.describe()}, issue $issue';
+
+  // Task 3.2: Magazine late fee (~/ is integer division)
+  @override
+  int lateFee(int days) => days * (feePerDay ~/ 2);
 }
 
 Magazine mainMagazine() {
   final int i = (u + 1) % 10;
   return Magazine(titles[i], yearOf(i), 1 + (t + u) % 12);
+}
+
+// Task 3.2
+class Dvd extends LibraryItem {
+  final int minutes;
+
+  Dvd(super.title, super.year, this.minutes);
+
+  @override
+  String describe() => '${super.describe()}, $minutes min';
+
+  @override
+  int lateFee(int days) => days * feePerDay * 2;
+}
+
+Dvd mainDvd() {
+  final int i = (u + 2) % 10;
+  return Dvd(titles[i], yearOf(i), 90 + seed % 40);
 }
 
 
@@ -107,7 +138,18 @@ void step2() {
 
 //=========== Step 3 ===========
 
-void step3() { print('--- Step 3 ---'); }
+void step3() {
+  print('--- Step 3 ---');
+  print(
+    'Step 3: Book late fee for $daysLate days = ${mainBook().lateFee(daysLate)}',
+  );
+  print(
+    'Step 3: Magazine late fee for $daysLate days = ${mainMagazine().lateFee(daysLate)}',
+  );
+  print(
+    'Step 3: Dvd late fee for $daysLate days = ${mainDvd().lateFee(daysLate)}',
+  );
+}
 
 //=========== Step 4 ===========
 
