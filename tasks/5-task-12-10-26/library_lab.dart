@@ -158,6 +158,24 @@ enum MemberType {
   int applyDiscount(int fee) => fee - (fee * discountPercent ~/ 100);
 }
 
+
+// Task 7
+// Think: Writing `72.rs` enables dot-chaining and fluent readability, 
+// and integrates with IDE autocomplete, avoiding nested function wrappers like `rs(fee)`.
+// Task 7.1: Extension methods on existing types
+extension MoneyText on int {
+  String get rs => 'Rs $this';
+}
+
+extension Initials on String {
+  String get initials => split(' ').map((w) => w[0]).join();
+}
+
+extension ShelfMath on List<LibraryItem> {
+  int totalLateFee(int days) =>
+      fold(0, (sum, item) => sum + item.lateFee(days));
+}
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
   step1();
@@ -257,7 +275,18 @@ void step6() {
 
 //=========== Step 7 ===========
 
-void step7() { print('--- Step 7 ---'); }
+void step7() {
+  print('--- Step 7 ---');
+  final type = MemberType.values[seed % 3];
+  final discountedFee = type.applyDiscount(mainBook().lateFee(daysLate));
+  final shelf = [mainBook(), mainMagazine(), mainDvd()];
+
+  print('Step 7: ${discountedFee.rs}');
+  print('Step 7: initials of "${titles[u]}" = ${titles[u].initials}');
+  print(
+    'Step 7: shelf fee for $daysLate days = ${shelf.totalLateFee(daysLate).rs}',
+  );
+}
 
 //=========== Step 8 ===========
 
