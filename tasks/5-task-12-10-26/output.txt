@@ -128,7 +128,11 @@ Step 7: initials of "Computer Networks" = CN
 Step 7: shelf fee for 7 days = Rs 196
 
 //=========== Step 8 ===========
-
+--- Step 8 ---
+Step 8: Fine(56) + Fine(28) = Fine(84)
+Step 8: first bigger? true
+Step 8: equal copies? true
+Step 8: set size = 2
 
 //=========== Step 9 ===========
 

@@ -176,6 +176,29 @@ extension ShelfMath on List<LibraryItem> {
       fold(0, (sum, item) => sum + item.lateFee(days));
 }
 
+// Task 8
+// Think: Without overriding hashCode, equal objects have different identity hashCodes, 
+// causing hash-based collections like Set and Map to store duplicates (set size becomes 3 instead of 2).
+// Task 8.1: Fine class with overloaded operators and value equality
+class Fine {
+  final int amount;
+
+  const Fine(this.amount);
+
+  Fine operator +(Fine o) => Fine(amount + o.amount);
+
+  bool operator >(Fine o) => amount > o.amount;
+
+  @override
+  bool operator ==(Object other) => other is Fine && other.amount == amount;
+
+  @override
+  int get hashCode => amount.hashCode;
+
+  @override
+  String toString() => 'Fine($amount)';
+}
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
   step1();
@@ -290,7 +313,16 @@ void step7() {
 
 //=========== Step 8 ===========
 
-void step8() { print('--- Step 8 ---'); }
+void step8() {
+  print('--- Step 8 ---');
+  final f1 = Fine(mainBook().lateFee(daysLate));
+  final f2 = Fine(mainMagazine().lateFee(daysLate));
+
+  print('Step 8: $f1 + $f2 = ${f1 + f2}');
+  print('Step 8: first bigger? ${f1 > f2}');
+  print('Step 8: equal copies? ${f1 == Fine(f1.amount)}');
+  print('Step 8: set size = ${{f1, Fine(f1.amount), f2}.length}');
+}
 
 //=========== Step 9 ===========
 
