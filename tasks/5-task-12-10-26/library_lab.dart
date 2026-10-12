@@ -222,6 +222,25 @@ class Fine {
   String toString() => 'Fine($amount)';
 }
 
+// Task 10.1: Member class calculating fines polymorphically
+class Member {
+  final String name;
+  final MemberType type;
+
+  Member(this.name, this.type);
+
+  Fine feeFor(LibraryItem item, int days) {
+    // 1. Polymorphic fee calculation
+    final fee = item.lateFee(days);
+    // 2. Cap with static helper
+    final capped = LibraryItem.capFee(fee);
+    // 3. Apply enum discount
+    final discounted = type.applyDiscount(capped);
+    // 4. Return as Fine object
+    return Fine(discounted);
+  }
+}
+
 void main() {
   print('Seed: $seed (t=$t, u=$u)');
   step1();
@@ -368,4 +387,28 @@ void step9() {
 
 //=========== Step 10 ===========
 
-void step10() { print('--- Step 10 ---'); }
+void step10() {
+  print('--- Step 10 ---');
+  final shelf = buildShelf();
+  final member = Member('S$seed', MemberType.values[seed % 3]);
+
+  int borrowableCount = 0;
+  int renewableCount = 0;
+
+  for (final item in shelf) {
+    if (item is Borrowable) borrowableCount++;
+    if (item is Renewable) renewableCount++;
+  }
+
+  // Fold using the overloaded + operator on Fine
+  final total = shelf.fold(
+    const Fine(0),
+    (Fine sum, item) => sum + member.feeFor(item, daysLate),
+  );
+
+  print(
+    'Step 10: ${shelf.length} items, $borrowableCount borrowable, $renewableCount renewable',
+  );
+  print('Step 10: ${member.name} (${member.type.name}) owes $total');
+  print('Step 10: over the cap? ${total > Fine(feeCap)}');
+}

@@ -142,4 +142,7 @@ Step 9: const copies identical? true
 Step 9: new copies identical? false
 
 //=========== Step 10 ===========
-
+--- Step 10 ---
+Step 10: 6 items, 2 borrowable, 4 renewable
+Step 10: S37 (faculty) owes Fine(316)
+Step 10: over the cap? true
