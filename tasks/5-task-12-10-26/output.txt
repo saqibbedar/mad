@@ -116,7 +116,10 @@ Step 5: dvd can renew too? true
 --- Step 10 --
 
 //=========== Step 6 ===========
-
+--- Step 6 ---
+Step 6: member type = faculty (index 1)
+Step 6: max loans = 10
+Step 6: book fee 56 -> 45 after discount
 
 //=========== Step 7 ===========
 
