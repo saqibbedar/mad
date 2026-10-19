@@ -38,6 +38,7 @@ final List<String> lifecycleLog = <String>[];
 void main() => runApp(const LabApp());
 
 // Keep the name LabApp and its const constructor: the checker uses them.
+// Stateless: Root application configuration widget that never changes its internal state.
 class LabApp extends StatelessWidget {
   const LabApp({super.key});
 
@@ -47,14 +48,119 @@ class LabApp extends StatelessWidget {
   }
 }
 
-// Think: Hot reload while the count is 12. Does it stay 12? Now do a hot restart.
-// Explain the difference using the words widget and State.
-// Answer:
-// 1. Hot reload: The count stays 12. Hot reload injects updated widget code and rebuilds
-//    the widget tree while preserving existing State objects in memory. Because _count is
-//    held in _TallyState, its value is not lost.
-// 2. Hot restart: The count resets to startCount (10). Hot restart destroys the entire application
-//    state, clears all State objects, and re-instantiates new widget and State instances from scratch.
+// Think: What is the difference between what runApp receives and what MaterialApp receives as home?
+// Answer: runApp() takes the root widget of the Flutter widget tree and attaches it to the screen rendering pipeline.
+// MaterialApp's home receives the top-level route/screen widget displayed inside the Material app environment.
+//
+// Think: Draw the widget tree of your screen on paper, from LabApp down to the three Text widgets.
+// How many levels deep is the Text('Max: ..')?
+// Answer: 8 levels deep:
+// Level 1: LabApp -> Level 2: MaterialApp -> Level 3: HomePage -> Level 4: Scaffold ->
+// Level 5: SingleChildScrollView -> Level 6: Column -> Level 7: Row -> Level 8: Text('Max: $maxCount')
+//
+// Stateless: Represents the static screen layout containing child widgets; it does not store mutable state.
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Study Tracker: $course')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            StudentCard(name: studentName, roll: rollNo, course: course),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Start: $startCount', key: const Key('info-start')),
+                Text('Step: $stepSize', key: const Key('info-step')),
+                Text('Max: $maxCount', key: const Key('info-max')),
+              ],
+            ),
+            const SizedBox(height: 12),
+            const Tally(),
+            const SizedBox(height: 12),
+            const Countdown(),
+            const SizedBox(height: 12),
+            const BuggyCounter(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Think: Why are the fields of a StatelessWidget final? What would the compiler say if you removed final?
+// Answer: Widgets are immutable configurations. If final is removed, the compiler warns:
+// "This class is marked as '@immutable', but one or more of its instance fields aren't final (must_be_immutable)"
+// and a const constructor cannot be defined with non-final fields.
+//
+// Stateless: Immutable card that displays static student details passed via constructor arguments.
+class StudentCard extends StatelessWidget {
+  final String name;
+  final String roll;
+  final String course;
+
+  const StudentCard({
+    super.key,
+    required this.name,
+    required this.roll,
+    required this.course,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Name: $name', key: const Key('student-name')),
+            Text('Roll no: $roll', key: const Key('student-roll')),
+            Text('Course: $course', key: const Key('student-course')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Think: Why does GoalBanner not need setState? What would you have to do to make it show a new count?
+// Answer: GoalBanner is a StatelessWidget whose build() is a pure function of its arguments. To show
+// a new count, its parent StatefulWidget must update its state via setState(), triggering a rebuild that
+// supplies the new count value to GoalBanner.
+//
+// Stateless: Computes and renders progress percentage strictly from properties passed by its parent.
+class GoalBanner extends StatelessWidget {
+  final int count;
+  final int max;
+
+  const GoalBanner({super.key, required this.count, required this.max});
+
+  @override
+  Widget build(BuildContext context) {
+    final percent = count * 100 ~/ max;
+    return Text(
+      'Progress: $count of $max ($percent%)',
+      key: const Key('progress'),
+    );
+  }
+}
+
+// Think: The class Tally has no fields that change, yet _TallyState does. Why are there two classes?
+// Answer: Tally is the immutable configuration widget recreated at low cost during rebuilds, while
+// _TallyState is the persistent object in memory that preserves state across rebuilds.
+//
+// Think: Hot reload while the count is 12. Does it stay 12? Now do a hot restart. Explain the difference using the words widget and State.
+// Answer: Hot reload keeps 12 because State instances persist in memory across widget rebuilds. Hot restart
+// resets to 10 because it destroys all existing State instances and rebuilds the app from scratch.
+//
+// Stateful: Manages interactive mutable state (_count) updated via button clicks and bounds checks.
 class Tally extends StatefulWidget {
   const Tally({super.key});
 
@@ -118,164 +224,14 @@ class _TallyState extends State<Tally> {
   }
 }
 
-// Think: What is the difference between what runApp receives and what MaterialApp receives as home?
-// Answer: runApp() receives the root widget of the entire Flutter application and attaches the widget tree
-// to the screen/engine. MaterialApp's home receives the top-level widget/screen (HomePage) that is rendered
-// as the default route of the Material design layout.
-
-// Think: Draw the widget tree of your screen on paper, from LabApp down to the three Text widgets.
-// How many levels deep is the Text('Max: ..')?
-// Answer: 8 levels deep:
-// Level 1: LabApp
-// Level 2:   MaterialApp
-// Level 3:     HomePage
-// Level 4:       Scaffold
-// Level 5:         SingleChildScrollView
-// Level 6:           Column
-// Level 7:             Row
-// Level 8:               Text('Max: $maxCount')
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Study Tracker: $course')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            StudentCard(name: studentName, roll: rollNo, course: course),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Start: $startCount', key: const Key('info-start')),
-                Text('Step: $stepSize', key: const Key('info-step')),
-                Text('Max: $maxCount', key: const Key('info-max')),
-              ],
-            ),
-            const SizedBox(height: 12),
-            const Tally(),
-            const SizedBox(height: 12),
-            const Countdown(),
-            const SizedBox(height: 12),
-            const BuggyCounter(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Think: Why does GoalBanner not need setState? What would you have to do to make it show a new count?
-// Answer: GoalBanner is a StatelessWidget without internal mutable state; its build() is a pure
-// function of the inputs (count and max) passed into it. To display a new count, its parent widget
-// (a StatefulWidget) must update its own state via setState(), triggering a rebuild that re-instantiates
-// GoalBanner with the new count value.
-class GoalBanner extends StatelessWidget {
-  final int count;
-  final int max;
-
-  const GoalBanner({super.key, required this.count, required this.max});
-
-  @override
-  Widget build(BuildContext context) {
-    final percent = count * 100 ~/ max;
-    return Text(
-      'Progress: $count of $max ($percent%)',
-      key: const Key('progress'),
-    );
-  }
-}
-
-// Think: Why are the fields of a StatelessWidget final? What would the compiler say if you removed final?
-// Answer: Widgets in Flutter are immutable configurations that represent a snapshot of the UI.
-// StatelessWidget instances cannot change over time; their data must remain constant once instantiated.
-// If 'final' is removed, the compiler/analyzer warns: "This class is marked as '@immutable',
-// but one or more of its instance fields aren't final (must_be_immutable)" and you cannot have
-// a 'const' constructor for a class with non-final fields.
-class StudentCard extends StatelessWidget {
-  final String name;
-  final String roll;
-  final String course;
-
-  const StudentCard({
-    super.key,
-    required this.name,
-    required this.roll,
-    required this.course,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Name: $name', key: const Key('student-name')),
-            Text('Roll no: $roll', key: const Key('student-roll')),
-            Text('Course: $course', key: const Key('student-course')),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ---- Provided for Step 7. It has a bug on purpose. Do not rename anything.
-// Think: Before the fix, you tapped three times. What was the value of _clicks inside the State,
-// and what did the screen show? Write both numbers.
-// Answer:
-// Value inside State: 12 (3 taps * bugStep of 4 = 12)
-// Screen showed: 0 (because without setState(), Flutter never called build() to refresh the UI)
-class BuggyCounter extends StatefulWidget {
-  const BuggyCounter({super.key});
-
-  @override
-  State<BuggyCounter> createState() => _BuggyCounterState();
-}
-
-class _BuggyCounterState extends State<BuggyCounter> {
-  int _clicks = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text('Bug clicks: $_clicks', key: const Key('bug-text')),
-        const SizedBox(width: 12),
-        ElevatedButton(
-          key: const Key('bug-button'),
-          onPressed: () {
-            setState(() {
-              _clicks += bugStep;
-            });
-          },
-          child: Text('+$bugStep'),
-        ),
-      ],
-    );
-  }
-}
-
-// Think: What error appears in the console if you delete the _timer.cancel() from dispose
-// and the widget is removed?
-// Answer: If the timer is not cancelled, it continues firing in the background after the widget
-// is unmounted. When the callback invokes setState(), Flutter throws:
-// "FlutterError: setState() called after dispose(): _CountdownState#...(lifecycle state: defunct, not mounted)"
-// This indicates a memory leak and attempting to update an unmounted widget.
-
+// Think: What error appears in the console if you delete the _timer.cancel() from dispose and the widget is removed?
+// Answer: Flutter throws "FlutterError: setState() called after dispose()" causing a memory leak and crash.
+//
 // Think: Why does it increase by one per second and not by two? Where could you print lifecycleLog to prove that dispose ran?
-// Answer:
-// 1. Why 1 per second: The Timer.periodic callback executes once every second, calling setState() once,
-//    which schedules and triggers exactly one rebuild (one build() execution) per second.
-// 2. Where to print lifecycleLog: Because build() never executes after a widget is unmounted/disposed,
-//    you can print lifecycleLog directly inside dispose() after logging, or in a parent widget / debug button
-//    after conditionally removing Countdown from the tree.
+// Answer: The periodic timer triggers once each second, invoking setState() once to schedule a single rebuild.
+// lifecycleLog can be printed inside dispose() or from a parent widget after Countdown is unmounted.
+//
+// Stateful: Tracks active countdown state, build counts, and an asynchronous periodic Timer.
 class Countdown extends StatefulWidget {
   const Countdown({super.key});
 
@@ -316,6 +272,41 @@ class _CountdownState extends State<Countdown> {
             ? Text('Time left: $_left s', key: const Key('time-left'))
             : const Text('Time is up!', key: Key('time-left')),
         Text('Builds: $_builds', key: const Key('builds')),
+      ],
+    );
+  }
+}
+
+// Think: Before the fix, you tapped three times. What was the value of _clicks inside the State,
+// and what did the screen show? Write both numbers.
+// Answer: Value inside State: 12. Screen showed: 0.
+//
+// Stateful: Maintains a mutable click count (_clicks) updated by button presses.
+class BuggyCounter extends StatefulWidget {
+  const BuggyCounter({super.key});
+
+  @override
+  State<BuggyCounter> createState() => _BuggyCounterState();
+}
+
+class _BuggyCounterState extends State<BuggyCounter> {
+  int _clicks = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text('Bug clicks: $_clicks', key: const Key('bug-text')),
+        const SizedBox(width: 12),
+        ElevatedButton(
+          key: const Key('bug-button'),
+          onPressed: () {
+            setState(() {
+              _clicks += bugStep;
+            });
+          },
+          child: Text('+$bugStep'),
+        ),
       ],
     );
   }
