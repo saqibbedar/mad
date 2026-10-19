@@ -15,3 +15,20 @@
 **Ans:** Flutter widgets are immutable blueprints that describe the UI at a specific moment. A `StatelessWidget` does not maintain any mutable state across rebuilds; once created, its properties should not change. If `final` is removed:
 1. The analyzer triggers the `must_be_immutable` warning: *"This class is marked as '@immutable', but one or more of its instance fields aren't final."*
 2. A constructor cannot be `const` if any instance field is non-final (*"Can't define a const constructor for a class with non-final fields"*).
+
+---
+
+### Step 3
+
+**Q: Draw the widget tree of your screen on paper, from `LabApp` down to the three `Text` widgets. How many levels deep is the `Text('Max: ..')`?**  
+**Ans:** It is **8 levels deep** (7 steps down from the root):
+```text
+1. LabApp
+└── 2. MaterialApp
+    └── 3. HomePage
+        └── 4. Scaffold
+            └── 5. SingleChildScrollView
+                └── 6. Column
+                    └── 7. Row
+                        └── 8. Text('Max: $maxCount')
+```
