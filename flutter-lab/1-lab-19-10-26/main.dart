@@ -51,6 +51,18 @@ class LabApp extends StatelessWidget {
 // Answer: runApp() receives the root widget of the entire Flutter application and attaches the widget tree
 // to the screen/engine. MaterialApp's home receives the top-level widget/screen (HomePage) that is rendered
 // as the default route of the Material design layout.
+
+// Think: Draw the widget tree of your screen on paper, from LabApp down to the three Text widgets.
+// How many levels deep is the Text('Max: ..')?
+// Answer: 8 levels deep:
+// Level 1: LabApp
+// Level 2:   MaterialApp
+// Level 3:     HomePage
+// Level 4:       Scaffold
+// Level 5:         SingleChildScrollView
+// Level 6:           Column
+// Level 7:             Row
+// Level 8:               Text('Max: $maxCount')
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -58,7 +70,24 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Study Tracker: $course')),
-      body: StudentCard(name: studentName, roll: rollNo, course: course),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            StudentCard(name: studentName, roll: rollNo, course: course),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Start: $startCount', key: const Key('info-start')),
+                Text('Step: $stepSize', key: const Key('info-step')),
+                Text('Max: $maxCount', key: const Key('info-max')),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
