@@ -47,6 +47,48 @@ class LabApp extends StatelessWidget {
   }
 }
 
+// Think: The class Tally has no fields that change, yet _TallyState does. Why are there two classes?
+// Answer: Flutter separates the immutable configuration (Tally extends StatefulWidget) from
+// the mutable, long-lived memory (_TallyState extends State<Tally>). Widget objects are lightweight
+// blueprints recreated frequently during rebuilds; State objects persist across rebuilds to preserve
+// data and UI state without losing values.
+class Tally extends StatefulWidget {
+  const Tally({super.key});
+
+  @override
+  State<Tally> createState() => _TallyState();
+}
+
+class _TallyState extends State<Tally> {
+  int _count = startCount;
+
+  void _plus() {
+    setState(() {
+      _count += stepSize;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Count: $_count', key: const Key('count')),
+        GoalBanner(count: _count, max: maxCount),
+        Row(
+          children: [
+            ElevatedButton(
+              key: const Key('plus'),
+              onPressed: _plus,
+              child: Text('+$stepSize'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 // Think: What is the difference between what runApp receives and what MaterialApp receives as home?
 // Answer: runApp() receives the root widget of the entire Flutter application and attaches the widget tree
 // to the screen/engine. MaterialApp's home receives the top-level widget/screen (HomePage) that is rendered
@@ -86,7 +128,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            GoalBanner(count: startCount, max: maxCount),
+            const Tally(),
           ],
         ),
       ),
