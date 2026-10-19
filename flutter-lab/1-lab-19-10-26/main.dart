@@ -47,11 +47,14 @@ class LabApp extends StatelessWidget {
   }
 }
 
-// Think: The class Tally has no fields that change, yet _TallyState does. Why are there two classes?
-// Answer: Flutter separates the immutable configuration (Tally extends StatefulWidget) from
-// the mutable, long-lived memory (_TallyState extends State<Tally>). Widget objects are lightweight
-// blueprints recreated frequently during rebuilds; State objects persist across rebuilds to preserve
-// data and UI state without losing values.
+// Think: Hot reload while the count is 12. Does it stay 12? Now do a hot restart.
+// Explain the difference using the words widget and State.
+// Answer:
+// 1. Hot reload: The count stays 12. Hot reload injects updated widget code and rebuilds
+//    the widget tree while preserving existing State objects in memory. Because _count is
+//    held in _TallyState, its value is not lost.
+// 2. Hot restart: The count resets to startCount (10). Hot restart destroys the entire application
+//    state, clears all State objects, and re-instantiates new widget and State instances from scratch.
 class Tally extends StatefulWidget {
   const Tally({super.key});
 
@@ -65,6 +68,20 @@ class _TallyState extends State<Tally> {
   void _plus() {
     setState(() {
       _count += stepSize;
+      if (_count > maxCount) _count = maxCount;
+    });
+  }
+
+  void _minus() {
+    setState(() {
+      _count -= stepSize;
+      if (_count < 0) _count = 0;
+    });
+  }
+
+  void _reset() {
+    setState(() {
+      _count = startCount;
     });
   }
 
@@ -81,6 +98,18 @@ class _TallyState extends State<Tally> {
               key: const Key('plus'),
               onPressed: _plus,
               child: Text('+$stepSize'),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton(
+              key: const Key('minus'),
+              onPressed: _minus,
+              child: Text('-$stepSize'),
+            ),
+            const SizedBox(width: 8),
+            OutlinedButton(
+              key: const Key('reset'),
+              onPressed: _reset,
+              child: const Text('Reset'),
             ),
           ],
         ),
