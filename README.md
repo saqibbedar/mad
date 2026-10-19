@@ -9,6 +9,7 @@ This repository hosts my tasks, projects and assignments related to my **Mobile 
 | dir_name | description | path |
 | --- | --- | --- |
 | tasks | curated tasks list | [view tasks](./tasks) |
+| flutter-tasks | curated flutter based tasks list | [view tasks](./flutter-tasks/) |
 
 > Note: due to `WIP` the folder structure would be chnaged frequently. If you are following along the code base turn on changes notifications.
 
