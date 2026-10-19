@@ -268,6 +268,14 @@ class _BuggyCounterState extends State<BuggyCounter> {
 // is unmounted. When the callback invokes setState(), Flutter throws:
 // "FlutterError: setState() called after dispose(): _CountdownState#...(lifecycle state: defunct, not mounted)"
 // This indicates a memory leak and attempting to update an unmounted widget.
+
+// Think: Why does it increase by one per second and not by two? Where could you print lifecycleLog to prove that dispose ran?
+// Answer:
+// 1. Why 1 per second: The Timer.periodic callback executes once every second, calling setState() once,
+//    which schedules and triggers exactly one rebuild (one build() execution) per second.
+// 2. Where to print lifecycleLog: Because build() never executes after a widget is unmounted/disposed,
+//    you can print lifecycleLog directly inside dispose() after logging, or in a parent widget / debug button
+//    after conditionally removing Countdown from the tree.
 class Countdown extends StatefulWidget {
   const Countdown({super.key});
 
@@ -278,10 +286,12 @@ class Countdown extends StatefulWidget {
 class _CountdownState extends State<Countdown> {
   late int _left;
   late Timer _timer;
+  int _builds = 0;
 
   @override
   void initState() {
     super.initState();
+    lifecycleLog.add('initState');
     _left = startSeconds;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() => _left--);
@@ -291,14 +301,22 @@ class _CountdownState extends State<Countdown> {
 
   @override
   void dispose() {
+    lifecycleLog.add('dispose');
     _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _left > 0
-        ? Text('Time left: $_left s', key: const Key('time-left'))
-        : const Text('Time is up!', key: Key('time-left'));
+    _builds++;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _left > 0
+            ? Text('Time left: $_left s', key: const Key('time-left'))
+            : const Text('Time is up!', key: Key('time-left')),
+        Text('Builds: $_builds', key: const Key('builds')),
+      ],
+    );
   }
 }

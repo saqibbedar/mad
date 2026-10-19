@@ -80,3 +80,13 @@
 **Ans:** If the timer is not cancelled, it keeps ticking in the background. When its callback triggers `setState()`, Flutter throws:
 `FlutterError: setState() called after dispose(): _CountdownState#(lifecycle state: defunct, not mounted)`.
 This causes a memory leak and runtime exception because Flutter cannot rebuild an unmounted element.
+
+---
+
+### Step 9
+
+**Q: Why does it increase by one per second and not by two? Where could you print `lifecycleLog` to prove that `dispose` ran?**
+  
+**Ans:** 
+- It increases by 1 per second because the `Timer.periodic` triggers once every second, calling `setState()` once, which schedules and executes exactly one frame/rebuild of the widget.
+- You can print `lifecycleLog` inside `dispose()` itself right before completing destruction, or from a parent widget (e.g. in `HomePage` or an external debug button) after `Countdown` has been unmounted from the widget tree.
