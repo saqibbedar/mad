@@ -6,4 +6,4 @@
 | main.dart | file | main code file | [View](main.dart) |
 | Answer.md | file | Contains answers | [View](AWNSERS.md) |
 | assets | dir | contains task pdf | [View](./assets/) |
-| screenshots | dir | steps screenshots | [View](./screenshots/) |![alt text](image.png)
+| screenshots | dir | steps screenshots | [View](./screenshots/) |

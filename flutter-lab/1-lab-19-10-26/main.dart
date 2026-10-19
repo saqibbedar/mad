@@ -43,10 +43,7 @@ class LabApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Study Tracker',
-      home: HomePage(),
-    );
+    return const MaterialApp(title: 'Study Tracker', home: HomePage());
   }
 }
 
@@ -61,7 +58,43 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Study Tracker: $course')),
-      body: const Center(child: Text('Hello')),
+      body: StudentCard(name: studentName, roll: rollNo, course: course),
+    );
+  }
+}
+
+// Think: Why are the fields of a StatelessWidget final? What would the compiler say if you removed final?
+// Answer: Widgets in Flutter are immutable configurations that represent a snapshot of the UI.
+// StatelessWidget instances cannot change over time; their data must remain constant once instantiated.
+// If 'final' is removed, the compiler/analyzer warns: "This class is marked as '@immutable',
+// but one or more of its instance fields aren't final (must_be_immutable)" and you cannot have
+// a 'const' constructor for a class with non-final fields.
+class StudentCard extends StatelessWidget {
+  final String name;
+  final String roll;
+  final String course;
+
+  const StudentCard({
+    super.key,
+    required this.name,
+    required this.roll,
+    required this.course,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Name: $name', key: const Key('student-name')),
+            Text('Roll no: $roll', key: const Key('student-roll')),
+            Text('Course: $course', key: const Key('student-course')),
+          ],
+        ),
+      ),
     );
   }
 }
