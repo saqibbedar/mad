@@ -1,0 +1,7 @@
+name: flutter lab
+description: Hosts all flutter based lab tasks, prefixed by number i.e., 1 and date great for accessibility. 
+features: 
+  - curated list
+  - extends low to high (low=basic, high=advance | as dirs will grow)
+  - task date (easily look at the specific task and its date easy for personal usecase)
+  - overall, easy accessibility to any lab task
