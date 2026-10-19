@@ -158,6 +158,8 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Tally(),
+            const SizedBox(height: 12),
+            const BuggyCounter(),
           ],
         ),
       ),
@@ -223,6 +225,11 @@ class StudentCard extends StatelessWidget {
 }
 
 // ---- Provided for Step 7. It has a bug on purpose. Do not rename anything.
+// Think: Before the fix, you tapped three times. What was the value of _clicks inside the State,
+// and what did the screen show? Write both numbers.
+// Answer:
+// Value inside State: 12 (3 taps * bugStep of 4 = 12)
+// Screen showed: 0 (because without setState(), Flutter never called build() to refresh the UI)
 class BuggyCounter extends StatefulWidget {
   const BuggyCounter({super.key});
 
@@ -242,7 +249,9 @@ class _BuggyCounterState extends State<BuggyCounter> {
         ElevatedButton(
           key: const Key('bug-button'),
           onPressed: () {
-            _clicks += bugStep;
+            setState(() {
+              _clicks += bugStep;
+            });
           },
           child: Text('+$bugStep'),
         ),

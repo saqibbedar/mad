@@ -58,3 +58,15 @@
 **Ans:**
 - **Hot Reload:** The count stays 12. Hot reload updates widget definitions and triggers a rebuild while **preserving existing State instances** in memory. Because `_count` is stored in the `State` object (`_TallyState`), it is maintained.
 - **Hot Restart:** The count resets to `startCount` (10). Hot restart destroys and cleans up all existing **State** objects and rebuilds the entire **widget** hierarchy from scratch, re-initializing all state variables.
+
+---
+
+### Step 7
+
+**Q: Before the fix, you tapped three times. What was the value of `_clicks` inside the State, and what did the screen show?**  
+
+**Ans:** 
+- Value of `_clicks` inside State: **12** (since `bugStep = 4`, 3 taps × 4 = 12)
+- Value shown on screen: **0** (`Bug clicks: 0`) because `build()` is only triggered when `setState()` tells the framework the state has changed.
+
+*(Note for final wrap-up: **A3: 12**)*
