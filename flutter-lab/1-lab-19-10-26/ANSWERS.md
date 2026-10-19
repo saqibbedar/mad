@@ -48,3 +48,13 @@
 **Q: The class `Tally` has no fields that change, yet `_TallyState` does. Why are there two classes?**  
 
 **Ans:** Flutter separates immutable UI configuration from mutable state lifecycle. The `Tally` widget is an immutable configuration blueprint that Flutter can create, throw away, and rebuild at low cost. The `_TallyState` object persists in memory across widget rebuilds, maintaining the active state (`_count`) and surviving rebuilds of the parent widget tree.
+
+---
+
+### Step 6
+
+**Q: Hot reload while the count is 12. Does it stay 12? Now do a hot restart. Explain the difference using the words widget and State.**  
+
+**Ans:**
+- **Hot Reload:** The count stays 12. Hot reload updates widget definitions and triggers a rebuild while **preserving existing State instances** in memory. Because `_count` is stored in the `State` object (`_TallyState`), it is maintained.
+- **Hot Restart:** The count resets to `startCount` (10). Hot restart destroys and cleans up all existing **State** objects and rebuilds the entire **widget** hierarchy from scratch, re-initializing all state variables.
