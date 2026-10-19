@@ -70,3 +70,13 @@
 - Value shown on screen: **0** (`Bug clicks: 0`) because `build()` is only triggered when `setState()` tells the framework the state has changed.
 
 *(Note for final wrap-up: **A3: 12**)*
+
+---
+
+### Step 8
+
+**Q: What error appears in the console if you delete the `_timer.cancel()` from `dispose` and the widget is removed?** 
+ 
+**Ans:** If the timer is not cancelled, it keeps ticking in the background. When its callback triggers `setState()`, Flutter throws:
+`FlutterError: setState() called after dispose(): _CountdownState#(lifecycle state: defunct, not mounted)`.
+This causes a memory leak and runtime exception because Flutter cannot rebuild an unmounted element.

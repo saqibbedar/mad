@@ -159,6 +159,8 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 12),
             const Tally(),
             const SizedBox(height: 12),
+            const Countdown(),
+            const SizedBox(height: 12),
             const BuggyCounter(),
           ],
         ),
@@ -257,5 +259,46 @@ class _BuggyCounterState extends State<BuggyCounter> {
         ),
       ],
     );
+  }
+}
+
+// Think: What error appears in the console if you delete the _timer.cancel() from dispose
+// and the widget is removed?
+// Answer: If the timer is not cancelled, it continues firing in the background after the widget
+// is unmounted. When the callback invokes setState(), Flutter throws:
+// "FlutterError: setState() called after dispose(): _CountdownState#...(lifecycle state: defunct, not mounted)"
+// This indicates a memory leak and attempting to update an unmounted widget.
+class Countdown extends StatefulWidget {
+  const Countdown({super.key});
+
+  @override
+  State<Countdown> createState() => _CountdownState();
+}
+
+class _CountdownState extends State<Countdown> {
+  late int _left;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _left = startSeconds;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() => _left--);
+      if (_left <= 0) timer.cancel(); // stop at zero
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _left > 0
+        ? Text('Time left: $_left s', key: const Key('time-left'))
+        : const Text('Time is up!', key: Key('time-left'));
   }
 }
