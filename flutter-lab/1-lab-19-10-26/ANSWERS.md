@@ -32,3 +32,11 @@
                     └── 7. Row
                         └── 8. Text('Max: $maxCount')
 ```
+
+---
+
+### Step 4
+
+**Q: Why does `GoalBanner` not need `setState`? What would you have to do to make it show a new count?**
+  
+**Ans:** `GoalBanner` is a `StatelessWidget` whose job is solely to render whatever properties (`count`, `max`) it receives from its parent. It does not store or manage state. To show an updated count, a parent `StatefulWidget` must modify its state variable inside `setState()`, which rebuilds the parent and passes the new count value down into `GoalBanner`.
