@@ -8,18 +8,20 @@ This repository hosts my tasks, projects and assignments related to my **Mobile 
 
 | dir_name | description | path |
 | --- | --- | --- |
-| tasks | curated tasks list | [view tasks](./tasks) |
-| flutter-tasks | curated flutter based tasks list | [view tasks](./flutter-tasks/) |
+| tasks | curated tasks list | [view](./tasks) |
+| flutter-tasks | curated flutter based tasks list | [view](./flutter-tasks/) |
+| exam-prep | mid+final practice | [view](./exam-prep/) |
+| resources | notes, slides/pdfs, tasks etc | [view](./resources/) |
 
 > Note: due to `WIP` the folder structure would be chnaged frequently. If you are following along the code base turn on changes notifications.
 
 # Getting Started (clone + contribution)
 
-- **Using GitLab**:
+<!-- - **Using GitLab**:
 
     ```bash
     git clone https://gitlab.com/bedarlabs/bscs/mad.git && cd mad
-    ```
+    ``` -->
 
 - **Using GitHub**:
 
