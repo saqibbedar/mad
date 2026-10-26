@@ -327,6 +327,8 @@ class HomePage extends StatelessWidget {
             const ShareRow(),
             const SizedBox(height: 12),
             const InfoBox(),
+            const SizedBox(height: 12),
+            StampStack(),
           ],
         ),
       ),
@@ -462,6 +464,43 @@ class InfoBox extends StatelessWidget {
         border: Border.all(width: boxBorder),
       ),
       child: Text('Course: $course', key: const Key('box-text')),
+    );
+  }
+}
+
+// Think: What decides the size of the Stack? What happens to the layout if the Icons come first and the grey Container last?
+// Answer:
+// 1. Stack sizing: The size of a Stack is determined by its non-positioned children (in this case, the base Container
+//    with width: 300, height: 120). Positioned children size and pin themselves relative to that boundary.
+// 2. Ordering: Stack paints its children in order from first to last (bottom layer to top layer). If Icons came first
+//    and the Container last, the opaque grey Container would be painted on top, completely covering and hiding the Icons.
+//
+// Stateless: Demonstrates multi-layer overlapping layout using Stack and Positioned stamps.
+class StampStack extends StatelessWidget {
+  const StampStack({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      key: const Key('stack'),
+      children: [
+        Container(
+          key: const Key('layer-base'),
+          width: 300,
+          height: 120,
+          color: Colors.grey.shade300,
+        ),
+        Positioned(
+          top: dotTop,
+          right: dotRight,
+          child: const Icon(Icons.star, key: Key('dot-top')),
+        ),
+        Positioned(
+          bottom: dotBottom,
+          left: dotLeft,
+          child: const Icon(Icons.circle, key: Key('dot-bottom')),
+        ),
+      ],
     );
   }
 }
