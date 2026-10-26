@@ -87,6 +87,14 @@ class LabApp extends StatelessWidget {
 // exactly one Timer is created. If started in build(), a new Timer would be spawned on every rebuild.
 // Since each tick calls setState() which calls build(), timers would multiply exponentially, causing
 // the clock to accelerate uncontrollably and leak resources.
+
+// Think: Why does Builds go up by one per second and not by two? What error would you see in the console if the widget left the screen and _timer.cancel() was missing from dispose?
+// Answer:
+// 1. Why 1 per second: The periodic Timer fires once per second, invoking setState() once,
+//    which schedules and triggers exactly one rebuild (one build() execution) per second.
+// 2. Missing cancel error: If unmounted while ticking, calling setState() throws:
+//    "FlutterError: setState() called after dispose(): _ClockState#(lifecycle state: defunct, not mounted)"
+//    leading to a memory leak and runtime crash.
 class Clock extends StatefulWidget {
   const Clock({super.key});
 
@@ -97,10 +105,12 @@ class Clock extends StatefulWidget {
 class _ClockState extends State<Clock> {
   late Timer _timer;
   int _seconds = startSec;
+  int _builds = 0;
 
   @override
   void initState() {
     super.initState();
+    lifecycleLog.add('initState');
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() => _seconds += tick);
       if (_seconds >= stopAt) timer.cancel(); // stop at your limit
@@ -108,8 +118,22 @@ class _ClockState extends State<Clock> {
   }
 
   @override
+  void dispose() {
+    _timer.cancel();
+    lifecycleLog.add('dispose');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Text('Session: $_seconds s', key: const Key('clock'));
+    _builds++;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Session: $_seconds s', key: const Key('clock')),
+        Text('Builds: $_builds', key: const Key('builds')),
+      ],
+    );
   }
 }
 
