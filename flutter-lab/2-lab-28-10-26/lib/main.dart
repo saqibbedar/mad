@@ -132,6 +132,46 @@ class _ClockState extends State<Clock> {
       children: [
         Text('Session: $_seconds s', key: const Key('clock')),
         Text('Builds: $_builds', key: const Key('builds')),
+        Probe(seconds: _seconds)
+      ],
+    );
+  }
+}
+
+// Think: Which of the two, Widget or Element, is “cheap and thrown away” and which one keeps the State?
+// Where is the third one, the RenderObject, and what is its job?
+// Answer:
+// 1. Widget: Lightweight, immutable blueprint that is cheap and thrown away on every rebuild.
+// 2. Element: Persistent node in the tree that stays alive across rebuilds and holds the State and BuildContext.
+// 3. RenderObject: Lives in the Render Tree beneath the Element tree; its job is handling layout sizing,
+//    calculating geometric constraints, hit testing, and painting pixels to the screen.
+class Probe extends StatelessWidget {
+  final int seconds;
+
+  const Probe({super.key, required this.seconds});
+
+  @override
+  Widget build(BuildContext context) {
+    final bool above =
+        context.findAncestorWidgetOfExactType<Scaffold>() != null;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Seen at: $seconds s', key: const Key('probe-seen')),
+        Text(
+          'Widget #${identityHashCode(this)}',
+          key: const Key('probe-widget'),
+        ),
+        Text(
+          'Element #${identityHashCode(context)}',
+          key: const Key('probe-element'),
+        ),
+        Text(
+          'Context belongs to: ${context.widget.runtimeType}',
+          key: const Key('probe-context'),
+        ),
+        Text('Scaffold above me: $above', key: const Key('probe-above')),
       ],
     );
   }

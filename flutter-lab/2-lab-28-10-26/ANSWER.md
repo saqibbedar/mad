@@ -19,3 +19,11 @@
   `FlutterError: setState() called after dispose(): _ClockState#(lifecycle state: defunct, not mounted)`.
 
 *(Note for wrap-up: **A2: 8** — 1 initial build + 7 ticks = 8 total builds)*
+
+## Step 3
+
+**Q: Which of the two, Widget or Element, is “cheap and thrown away” and which one keeps the State? Where is the third one, the RenderObject, and what is its job?**  
+**Ans:** 
+- **Widget** is the lightweight, immutable configuration that is cheap and thrown away (re-instantiated) on every rebuild.
+- **Element** is the persistent tree node that manages the lifecycle, acts as `BuildContext`, and holds the `State`.
+- **RenderObject** lives in the Render Tree beneath the Element tree. Its job is computing layout constraints/geometry, hit testing, and painting actual pixels onto the screen canvas.
