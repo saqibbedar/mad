@@ -44,3 +44,8 @@
 
 **Q: In a Column, which axis is the main axis? Why does `crossAxisAlignment: CrossAxisAlignment.center` in a Column move the children left or right and not up or down?**  
 **Ans:** In a `Column`, the main axis is the **vertical axis** (top to bottom), and the cross axis is the **horizontal axis** (left to right). Because `crossAxisAlignment` governs positioning along the cross axis, setting it to `center` aligns children horizontally across the width of the column (left/right) rather than vertically (up/down).
+
+## Step 7
+
+**Q: Why does wrapping a `Text` in `Expanded` make it wrap its words? Use the idea “constraints go down, sizes go up” from slide 13.**  
+**Ans:** Under Flutter's rule of *"constraints go down, sizes go up"*, a `Row` gives its children unbounded horizontal constraints (`maxWidth: infinity`) by default. Because the width is unconstrained, `Text` attempts to place all words on a single horizontal line, overflowing the screen. Wrapping `Text` in `Expanded` forces the `Row` to calculate the available remaining width and send a **bounded constraint** down to each child. When `Text` receives a finite maximum width constraint, its layout engine wraps the words onto multiple lines to stay within bounds.
