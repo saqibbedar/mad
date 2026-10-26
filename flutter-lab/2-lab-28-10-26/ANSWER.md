@@ -27,3 +27,8 @@
 - **Widget** is the lightweight, immutable configuration that is cheap and thrown away (re-instantiated) on every rebuild.
 - **Element** is the persistent tree node that manages the lifecycle, acts as `BuildContext`, and holds the `State`.
 - **RenderObject** lives in the Render Tree beneath the Element tree. Its job is computing layout constraints/geometry, hit testing, and painting actual pixels onto the screen canvas.
+
+## Step 4
+
+**Q: You built `Tile` out of an `ElevatedButton` without writing `extends ElevatedButton`. What is this style called, and why does Flutter prefer it?**  
+**Ans:** This is called **Composition over Inheritance**. Flutter strongly prefers composition because wrapping existing widgets inside new widgets creates flexible, loosely coupled, and reusable UI components. It avoids deep, brittle class inheritance trees, prevents the "fragile base class" problem, and keeps widgets as lightweight declarative configurations.
