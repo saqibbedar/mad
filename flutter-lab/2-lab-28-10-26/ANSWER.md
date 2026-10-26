@@ -58,3 +58,10 @@
 - If swapped, the `Exp` button (now `FlexFit.loose`) would shrink to its compact natural width rather than stretching, while the `Flex` button (now `FlexFit.tight`) would stretch to consume all 2/3 of the remaining leftover row width.
 
 *(Note for wrap-up: **A4: 33** — `1 / (1 + 2) = 33.33%`, rounded down to 33)*
+
+## Step 9
+
+**Q: Which one is inside the border, margin or padding? When would you use a plain `Padding` or `SizedBox` instead of a `Container`?**  
+**Ans:** 
+- **Padding** is inside the border (between the border and the inner child); **margin** is outside the border (between the border and neighboring widgets).
+- `Container` is a heavy composite widget. You should use a plain `Padding` when you only need inner whitespace around a child, and a plain `SizedBox` when you only need fixed dimensions or an empty spacer between children. Single-purpose widgets avoid overhead in the render tree and allow `const` optimizations.
