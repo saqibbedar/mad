@@ -259,6 +259,47 @@ class _SwapBoardState extends State<SwapBoard> {
   }
 }
 
+// Think: In a Column, which axis is the main axis? Why does crossAxisAlignment: CrossAxisAlignment.center
+// in a Column move the children left or right and not up or down?
+// Answer: In a Column, the vertical axis (top-to-bottom) is the main axis. The cross axis is the perpendicular
+// horizontal axis (left-to-right). Therefore, crossAxisAlignment controls alignment along the horizontal axis,
+// positioning children left, center, or right across the column width, rather than up or down.
+//
+// Stateless: Immutable layout widget grouping Row and Column text information together.
+class InfoPanel extends StatelessWidget {
+  const InfoPanel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          key: const Key('info-row'),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Start: $startSec s', key: const Key('row-a')),
+            const SizedBox(width: 8),
+            Text('Tick: $tick s', key: const Key('row-b')),
+            const SizedBox(width: 8),
+            Text('Stop: $stopAt s', key: const Key('row-c')),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Column(
+          key: const Key('info-col'),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Name: $studentName', key: const Key('col-a')),
+            Text('Roll no: $rollNo', key: const Key('col-b')),
+            Text('Course: $course', key: const Key('col-c')),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -278,6 +319,8 @@ class HomePage extends StatelessWidget {
             const Clock(),
             const SizedBox(height: 12),
             const SwapBoard(),
+            const SizedBox(height: 12),
+            const InfoPanel(),
           ],
         ),
       ),
