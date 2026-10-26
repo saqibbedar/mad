@@ -32,3 +32,10 @@
 
 **Q: You built `Tile` out of an `ElevatedButton` without writing `extends ElevatedButton`. What is this style called, and why does Flutter prefer it?**  
 **Ans:** This is called **Composition over Inheritance**. Flutter strongly prefers composition because wrapping existing widgets inside new widgets creates flexible, loosely coupled, and reusable UI components. It avoids deep, brittle class inheritance trees, prevents the "fragile base class" problem, and keeps widgets as lightweight declarative configurations.
+
+## Step 5
+
+**Q: Without keys, why did the number stay at the left even though the label moved? Use the words `widget`, `Element` and `State` in your answer.**  
+**Ans:** Without keys, Flutter identifies child elements solely by their `runtimeType` and positional index. When the list is reversed, the incoming `Tile` **widget** at index 0 matches the existing **Element** at index 0. Flutter reuses that existing **Element** and retains its associated **State** (which preserves the tap count of 2), while merely updating the **widget** configuration with the new label (`Maya: 2`). With `ValueKey`, Flutter matches **Elements** by key, ensuring that the **State** moves along with its corresponding **widget**.
+
+*(Note for wrap-up: **A3: 2**)*

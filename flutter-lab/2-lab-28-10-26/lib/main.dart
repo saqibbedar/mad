@@ -217,6 +217,48 @@ class _TileState extends State<Tile> {
   }
 }
 
+// Think: Without keys, why did the number stay at the left even though the label moved?
+// Use the words widget, Element and State in your answer.
+// Answer: Without keys, Flutter reconciles children solely by runtimeType and position in the tree.
+// When the list is reversed, Flutter matches the new Tile widget at position 0 to the existing Element at position 0.
+// The Element is reused along with its attached State object (which holds the tap count), while only the widget's
+// label property is updated. Adding ValueKey forces Flutter to match Elements by key identity, ensuring the State
+// follows the widget when positions change.
+//
+// Stateful: Holds the mutable list of tiles and handles the reordering swap action.
+class SwapBoard extends StatefulWidget {
+  const SwapBoard({super.key});
+
+  @override
+  State<SwapBoard> createState() => _SwapBoardState();
+}
+
+class _SwapBoardState extends State<SwapBoard> {
+  var tiles = [
+    Tile(tileA, key: ValueKey(tileA)),
+    Tile(tileB, key: ValueKey(tileB)),
+    Tile(tileC, key: ValueKey(tileC)),
+  ];
+
+  void swap() => setState(() => tiles = tiles.reversed.toList());
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: tiles),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          key: const Key('swap'),
+          onPressed: swap,
+          child: const Text('Swap'),
+        ),
+      ],
+    );
+  }
+}
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -235,13 +277,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 12),
             const Clock(),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Tile(tileA),
-                Tile(tileB),
-                Tile(tileC),
-              ],
-            )
+            const SwapBoard(),
           ],
         ),
       ),
