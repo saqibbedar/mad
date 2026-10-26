@@ -49,3 +49,12 @@
 
 **Q: Why does wrapping a `Text` in `Expanded` make it wrap its words? Use the idea “constraints go down, sizes go up” from slide 13.**  
 **Ans:** Under Flutter's rule of *"constraints go down, sizes go up"*, a `Row` gives its children unbounded horizontal constraints (`maxWidth: infinity`) by default. Because the width is unconstrained, `Text` attempts to place all words on a single horizontal line, overflowing the screen. Wrapping `Text` in `Expanded` forces the `Row` to calculate the available remaining width and send a **bounded constraint** down to each child. When `Text` receives a finite maximum width constraint, its layout engine wraps the words onto multiple lines to stay within bounds.
+
+## Step 8
+
+**Q: What would change on the screen if you swapped `Expanded` and `Flexible` between the two buttons? Which one is “Flexible with fit: tight”?**  
+**Ans:** 
+- **`Expanded`** is internally a `Flexible` with `fit: FlexFit.tight`, whereas standard `Flexible` has `fit: FlexFit.loose`.
+- If swapped, the `Exp` button (now `FlexFit.loose`) would shrink to its compact natural width rather than stretching, while the `Flex` button (now `FlexFit.tight`) would stretch to consume all 2/3 of the remaining leftover row width.
+
+*(Note for wrap-up: **A4: 33** — `1 / (1 + 2) = 33.33%`, rounded down to 33)*
