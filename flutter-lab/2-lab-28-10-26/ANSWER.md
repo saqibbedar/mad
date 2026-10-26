@@ -39,3 +39,8 @@
 **Ans:** Without keys, Flutter identifies child elements solely by their `runtimeType` and positional index. When the list is reversed, the incoming `Tile` **widget** at index 0 matches the existing **Element** at index 0. Flutter reuses that existing **Element** and retains its associated **State** (which preserves the tap count of 2), while merely updating the **widget** configuration with the new label (`Maya: 2`). With `ValueKey`, Flutter matches **Elements** by key, ensuring that the **State** moves along with its corresponding **widget**.
 
 *(Note for wrap-up: **A3: 2**)*
+
+## Step 6
+
+**Q: In a Column, which axis is the main axis? Why does `crossAxisAlignment: CrossAxisAlignment.center` in a Column move the children left or right and not up or down?**  
+**Ans:** In a `Column`, the main axis is the **vertical axis** (top to bottom), and the cross axis is the **horizontal axis** (left to right). Because `crossAxisAlignment` governs positioning along the cross axis, setting it to `center` aligns children horizontally across the width of the column (left/right) rather than vertically (up/down).
