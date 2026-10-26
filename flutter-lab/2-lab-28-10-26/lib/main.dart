@@ -177,6 +177,46 @@ class Probe extends StatelessWidget {
   }
 }
 
+// Stateless: Simple greeting widget that renders student name centered.
+class Welcome extends StatelessWidget {
+  const Welcome({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Welcome, $studentName', key: const Key('welcome')),
+    );
+  }
+}
+
+// Think: You built Tile out of an ElevatedButton without writing extends ElevatedButton.
+// What is this style called, and why does Flutter prefer it?
+// Answer: This design style is called "Composition over Inheritance". Flutter prefers composition
+// because wrapping widgets into small, modular building blocks provides greater flexibility, avoids
+// rigid inheritance hierarchies and the fragile base class problem, and keeps widgets lightweight and decoupled.
+//
+// Stateful: Manages its own internal tap counter state across user interactions.
+class Tile extends StatefulWidget {
+  final String label;
+
+  const Tile(this.label, {super.key});
+
+  @override
+  State<Tile> createState() => _TileState();
+}
+
+class _TileState extends State<Tile> {
+  int taps = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => setState(() => taps++),
+      child: Text('${widget.label}: $taps'),
+    );
+  }
+}
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -191,7 +231,17 @@ class HomePage extends StatelessWidget {
           children: [
             const SettingsCard(),
             const SizedBox(height: 12),
+            const Welcome(),
+            const SizedBox(height: 12),
             const Clock(),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Tile(tileA),
+                Tile(tileB),
+                Tile(tileC),
+              ],
+            )
           ],
         ),
       ),
