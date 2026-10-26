@@ -323,6 +323,8 @@ class HomePage extends StatelessWidget {
             const InfoPanel(),
             const SizedBox(height: 12),
             const SummaryRow(),
+            const SizedBox(height: 12),
+            const ShareRow(),
           ],
         ),
       ),
@@ -383,6 +385,49 @@ class SummaryRow extends StatelessWidget {
           child: Text(
             'Part C: break the layout on purpose, then fix it with Expanded or Wrap.',
             key: const Key('sum-c'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// Think: What would change on the screen if you swapped Expanded and Flexible between the two buttons?
+// Which one is “Flexible with fit: tight”?
+// Answer:
+// 1. "Expanded" is literally a Flexible with fit: FlexFit.tight (Flexible defaults to FlexFit.loose).
+// 2. If swapped, the 'Exp' button (now loose Flexible) would shrink down to its natural intrinsic size,
+//    while the 'Flex' button (now tight Expanded) would be forced to stretch and fill its entire 2/3 share
+//    of the leftover row width.
+//
+// Stateless: Demonstrates fixed-width sizing vs tight flex expansion vs loose flex sizing.
+class ShareRow extends StatelessWidget {
+  const ShareRow({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      key: const Key('share-row'),
+      children: [
+        SizedBox(
+          key: const Key('fixed'),
+          width: fixedW,
+          child: ElevatedButton(onPressed: () {}, child: const Text('F')),
+        ),
+        Expanded(
+          flex: flexA,
+          child: ElevatedButton(
+            key: const Key('exp'),
+            onPressed: () {},
+            child: const Text('Exp'),
+          ),
+        ),
+        Flexible(
+          flex: flexB,
+          child: ElevatedButton(
+            key: const Key('flex'),
+            onPressed: () {},
+            child: const Text('Flex'),
           ),
         ),
       ],
