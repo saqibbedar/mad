@@ -7,9 +7,14 @@ void main() {
 
   // but we can't call any method on nullable operator to do that we will use following methods:
 
-  // null-aware operator ?. 
-  var roles = {"role": "admin"};
-  var user = roles["role"] ?? "admin";  
+  // Null-coalesce operator 
+  var role = null;
+  var user = role ?? "admin";  
 
+  String? name;
+  // Instead of: String nonNull = name!; (Crashes if null)
+  String nonNull = name ?? "person";
+  print(nonNull);
 
+  print(user);
 }
