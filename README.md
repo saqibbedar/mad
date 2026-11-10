@@ -10,8 +10,7 @@ This repository hosts my tasks, projects and assignments related to my **Mobile 
 | --- | --- | --- |
 | tasks | curated tasks list | [view](./tasks) |
 | flutter-tasks | curated flutter based tasks list | [view](./flutter-tasks/) |
-| exam-prep | mid+final practice | [view](./exam-prep/) |
-| resources | notes, slides/pdfs, tasks etc | [view](./resources/) |
+| exam-prep | mid+final practice & resources | [view](./exam-prep/) |
 
 > Note: due to `WIP` the folder structure would be chnaged frequently. If you are following along the code base turn on changes notifications.
 
