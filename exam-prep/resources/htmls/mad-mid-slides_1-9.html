@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="CS 442 Mobile Application Development midterm preparation guide for slides 1–9, lab tasks, and the instructor's Fall 2026 exam pattern.">
+<title>CS 442 — Midterm Preparation · Slides 1–9</title>
+<style>
+:root{
+  --paper:#fcfbf8; --card:#fff; --ink:#252320; --soft-ink:#5f594f; --faint:#8c857a;
+  --rule:#e7e2d7; --rule-soft:#f0ece3;
+  --blue:#3b5bdb; --blue-bg:#f2f5ff; --blue-line:#d2dafb;
+  --green:#2f7a4f; --green-bg:#f1faf4; --green-line:#cbe8d6;
+  --amber:#a9682a; --amber-bg:#fff8ee; --amber-line:#f0ddc2;
+  --rose:#b24444; --rose-bg:#fff5f4; --rose-line:#f5d5d2;
+  --violet:#6b4ba8; --violet-bg:#f8f4ff; --violet-line:#e2d8f7;
+  --code-bg:#f7f5ef; --maxw:760px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif;font-size:17px;line-height:1.75}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px 130px}
+.masthead{padding:58px 0 30px;text-align:center}
+.masthead .tag,.lbl,.chapmark .n,.chapmark .lec,.toc .grp,.plain b{
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  text-transform:uppercase;font-weight:700}
+.masthead .tag{font-size:11px;letter-spacing:.2em;color:var(--blue);margin:0 0 16px}
+h1,h2,h3,h4,summary,th{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+h1{font-size:36px;line-height:1.14;letter-spacing:-.03em;margin:0 0 16px}
+.masthead .sub{color:var(--soft-ink);margin:0 auto;max-width:39em;font-size:17px}
+.rule-orn{display:flex;align-items:center;gap:12px;justify-content:center;margin:30px 0 0}
+.rule-orn span{height:1px;width:70px;background:var(--rule)} .rule-orn b{color:var(--blue);font-size:13px}
+h2{font-size:26px;line-height:1.25;letter-spacing:-.02em;margin:0 0 10px}
+h3{font-size:19px;letter-spacing:-.012em;margin:38px 0 6px}
+h4{font-size:15px;margin:27px 0 2px;color:var(--soft-ink)}
+p{margin:15px 0} ul,ol{margin:15px 0;padding-left:24px} li{margin:8px 0}
+code,pre,.m{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+code{background:var(--code-bg);padding:2px 6px;border-radius:5px;font-size:.85em;border:1px solid var(--rule-soft)}
+pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:12px;
+  padding:17px 19px;overflow-x:auto;font-size:13px;line-height:1.62;margin:20px 0;color:#33302a}
+pre code{background:none;border:0;padding:0;font-size:inherit}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:19px 21px;margin:24px 0;box-shadow:0 1px 2px rgba(60,50,30,.035)}
+.card>:first-child{margin-top:0}.card>:last-child{margin-bottom:0}
+.lbl{display:block;font-size:10.5px;letter-spacing:.15em;margin-bottom:9px}
+.def{background:var(--blue-bg);border-color:var(--blue-line)} .def .lbl{color:var(--blue)}
+.why{background:var(--violet-bg);border-color:var(--violet-line)} .why .lbl{color:var(--violet)}
+.good{background:var(--green-bg);border-color:var(--green-line)} .good .lbl{color:var(--green)}
+.warn{background:var(--amber-bg);border-color:var(--amber-line)} .warn .lbl{color:var(--amber)}
+.bad{background:var(--rose-bg);border-color:var(--rose-line)} .bad .lbl{color:var(--rose)}
+.plain{border-left:3px solid var(--blue-line);padding:4px 0 4px 16px;margin:20px 0;color:var(--soft-ink);font-size:16px}
+.plain b{color:var(--blue);font-size:10.5px;letter-spacing:.12em;display:block;margin-bottom:3px}
+.breath{text-align:center;margin:42px 0;color:var(--faint);font-size:14px;font-style:italic}
+.breath:before,.breath:after{content:"·  ";letter-spacing:.3em}
+.chapmark{margin:74px 0 0;padding:25px 0 0;border-top:2px solid var(--rule);scroll-margin-top:14px}
+.chapmark .n,.chapmark .lec{display:inline-block;font-size:10px;letter-spacing:.16em;padding:4px 10px;border-radius:30px;margin-bottom:14px}
+.chapmark .n{color:var(--blue);background:var(--blue-bg);border:1px solid var(--blue-line)}
+.chapmark .lec{margin-left:7px;color:var(--faint);background:var(--rule-soft);border:1px solid var(--rule)}
+nav.toc{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:21px 23px;margin:36px 0}
+nav.toc .lbl{color:var(--blue)}
+nav.toc ol{list-style:none;padding:0;margin:0;font-size:15.5px}
+nav.toc li{margin:0;border-bottom:1px solid var(--rule-soft)}
+nav.toc li:last-child{border-bottom:0}
+nav.toc a{display:flex;gap:13px;align-items:baseline;padding:8px 2px;color:var(--ink);text-decoration:none}
+nav.toc a:before{content:attr(data-n);font-family:ui-monospace,monospace;font-size:12px;color:var(--faint);min-width:22px}
+nav.toc a:hover{color:var(--blue)}
+nav.toc .grp{font-size:10px;letter-spacing:.14em;color:var(--faint);padding:15px 2px 6px;border-bottom:1px solid var(--rule-soft)}
+nav.toc .grp:first-child{padding-top:2px}
+table{border-collapse:separate;border-spacing:0;width:100%;margin:22px 0;font-size:14px;
+  font-family:ui-sans-serif,system-ui,sans-serif;background:var(--card);border:1px solid var(--rule);border-radius:12px;overflow:hidden}
+th,td{padding:9px 12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--rule-soft)}
+tr:last-child td{border-bottom:0}
+th{background:#faf8f3;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--soft-ink)}
+td code{font-size:.88em}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0}
+.cols .col{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:15px 17px}
+.cols .col h5{margin:0 0 8px;font-family:ui-sans-serif,system-ui,sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.cols .col pre{margin:0;background:transparent;border:0;padding:0;font-size:12px}
+.col.ok h5{color:var(--green)} .col.ok{background:var(--green-bg);border-color:var(--green-line)}
+.col.no h5{color:var(--rose)} .col.no{background:var(--rose-bg);border-color:var(--rose-line)}
+details{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:13px 17px;margin:17px 0}
+details[open]{border-color:var(--blue-line);background:var(--blue-bg)}
+summary{cursor:pointer;font-size:15px;font-weight:650}
+summary::marker{color:var(--blue)}
+details .ans{margin-top:13px;padding-top:13px;border-top:1px dashed var(--rule)}
+details .ans>:first-child{margin-top:0}
+details pre{background:rgba(255,255,255,.72)}
+.gloss{color:var(--faint);font-style:italic}
+.checklist{list-style:none;padding-left:0}
+.checklist li{padding-left:28px;position:relative}
+.checklist li:before{content:"□";position:absolute;left:2px;color:var(--blue);font-size:19px;line-height:1.3}
+footer{margin-top:75px;padding-top:24px;border-top:2px solid var(--rule);color:var(--faint);font-size:14px}
+@media(max-width:620px){
+  body{font-size:16px;line-height:1.7}.wrap{padding:0 17px 100px}
+  h1{font-size:29px}h2{font-size:22px}h3{font-size:18px}
+  pre{font-size:11.5px;padding:13px 14px}.cols{grid-template-columns:1fr}
+  table{font-size:12.5px}th,td{padding:8px}
+}
+@media print{
+  body{background:#fff;font-size:11pt}.wrap{max-width:none;padding:0}
+  .masthead{padding:20px 0}.card,nav.toc,details,table{break-inside:avoid}
+  details:not([open]) .ans{display:block}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <p class="tag">CS 442 · Mobile Application Development · Fall 2026</p>
+  <h1>Midterm Preparation<br>Slides 1–9</h1>
+  <p class="sub">A focused study guide built from the merged lecture slides, lab tasks, and the instructor’s Fall 2026 midterm with its answer key. Learn the ideas, practise the task patterns, then take the mock paper closed-book.</p>
+  <div class="rule-orn"><span></span><b>✦</b><span></span></div>
+</header>
+
+<div class="card why">
+  <span class="lbl">How to use this guide</span>
+  <p>Study the nine units in order, but spend the most practice time on Dart OOP, Flutter state/lifecycle, keys, and layout: these are prominent in the sample paper. Do not ignore earlier Dart foundations or the later shared-state/REST material; they appear in the merged slides and labs. The mock paper below follows the sample’s <strong>9-question / 35-mark</strong> structure, not a promise that the next paper will be identical.</p>
+  <p>Use the disclosure rows to hide answers while practising. For full exam conditions, close the answer sections, set a 90-minute timer, and write complete answers before opening the key.</p>
+</div>
+
+<nav class="toc" aria-label="Contents">
+  <span class="lbl">Contents</span>
+  <div class="grp">Nine study units · the merged slides</div>
+  <ol>
+    <li><a data-n="01" href="#s1">Mobile apps, Flutter architecture, and setup</a></li>
+    <li><a data-n="02" href="#s2">Dart syntax, types, null safety, and control flow</a></li>
+    <li><a data-n="03" href="#s3">Functions, collections, errors, and async</a></li>
+    <li><a data-n="04" href="#s4">Classes, constructors, and data encapsulation</a></li>
+    <li><a data-n="05" href="#s5">Inheritance, contracts, mixins, and enums</a></li>
+    <li><a data-n="06" href="#s6">Flutter widgets, state, and lifecycle</a></li>
+    <li><a data-n="07" href="#s7">BuildContext, composition, and keys</a></li>
+    <li><a data-n="08" href="#s8">Row, Column, flex, Stack, and Container</a></li>
+    <li><a data-n="s9" href="#s9">Shared state, Riverpod, REST, and JSON</a></li>
+  </ol>
+  <div class="grp">Exam preparation</div>
+  <ol>
+    <li><a data-n="P" href="#pattern">Professor’s paper pattern and marking habits</a></li>
+    <li><a data-n="L" href="#labs">What the lab tasks are training you to do</a></li>
+    <li><a data-n="R" href="#recall">Fast recall sheet and common traps</a></li>
+    <li><a data-n="35" href="#mock">35-mark mock midterm</a></li>
+    <li><a data-n="✓" href="#lastday">Final self-check</a></li>
+  </ol>
+</nav>
+
+<div class="chapmark" id="s1"><span class="n">Unit 1</span><span class="lec">Slides · Mobile landscape</span>
+<h2>Mobile apps, Flutter architecture, and setup</h2></div>
+<p>Native Android and iOS apps traditionally use different languages and platform APIs. Cross-platform approaches share more code, but make different trade-offs in user-interface rendering, platform access, performance, and development workflow.</p>
+<div class="card def">
+  <span class="lbl">The Flutter picture to remember</span>
+  <pre><code>Dart source
+    ↓
+Flutter framework (widgets, Material/Cupertino, animation)
+    ↓
+Flutter engine (rendering, text, Dart runtime)
+    ↓
+pixels on the screen</code></pre>
+  <p>Flutter normally draws its interface through its own rendering stack rather than translating each Flutter widget into a native UI widget. This supports a consistent interface across platforms. Platform-specific APIs are still available through plugins/platform channels.</p>
+</div>
+<table>
+  <tr><th>Approach</th><th>Useful distinction</th><th>Trade-off to explain</th></tr>
+  <tr><td>Native</td><td>Platform’s own language, UI toolkit, and APIs</td><td>Best direct platform integration; separate platform work may be needed</td></tr>
+  <tr><td>Flutter</td><td>Dart + Flutter framework/engine draws the UI</td><td>Shared UI and consistent rendering; platform-specific work may still be needed</td></tr>
+  <tr><td>Bridge-based cross-platform UI</td><td>Shared-language code communicates with native components</td><td>More native look/integration, with a bridge/runtime in the architecture</td></tr>
+</table>
+<h3>Project anatomy and the command flow</h3>
+<pre><code>lib/main.dart       app entry point and widget tree
+pubspec.yaml       package dependencies and assets
+android/ ios/      platform-specific project files
+
+flutter create app_name
+cd app_name
+flutter run
+flutter analyze</code></pre>
+<p>In Flutter, <code>main()</code> is the Dart entry point. <code>runApp()</code> attaches the root widget and starts rendering. Hot reload applies many code changes while keeping the running app state; it is not the same as restarting the app or rerunning all initialization.</p>
+<div class="card warn"><span class="lbl">Exam framing</span><p>If asked to describe Flutter, state the language, framework/engine rendering idea, and one trade-off. Avoid the inaccurate blanket claim that Flutter has no access to native APIs.</p></div>
+<p class="breath">unit 1 · understand the architecture, then move into Dart</p>
+
+<div class="chapmark" id="s2"><span class="n">Unit 2</span><span class="lec">Slides · Dart fundamentals</span>
+<h2>Dart syntax, types, null safety, and control flow</h2></div>
+<p>Dart is statically typed and uses sound null safety. A non-nullable type such as <code>String</code> cannot hold <code>null</code>; a nullable type such as <code>String?</code> can.</p>
+<pre><code>void main() {
+  final String course = 'MAD';     // assigned once
+  var count = 3;                    // inferred as int; variable can change
+  const double tax = 0.05;          // compile-time constant
+  String? nickname;                 // may be null
+
+  print(nickname ?? 'Guest');       // fallback if null
+  print(nickname?.toUpperCase());   // call only if non-null
+  // nickname!.toUpperCase();       // assert non-null; can throw at runtime
+}</code></pre>
+<table>
+  <tr><th>Syntax</th><th>Meaning</th><th>When it is useful</th></tr>
+  <tr><td><code>final</code></td><td>Set once at runtime</td><td>Value known only when code runs, but should not be reassigned</td></tr>
+  <tr><td><code>const</code></td><td>Compile-time constant</td><td>Known constant values and constant Flutter widgets</td></tr>
+  <tr><td><code>T?</code></td><td>Nullable <code>T</code></td><td>Absence is a valid state and must be handled</td></tr>
+  <tr><td><code>??</code></td><td>Use the right operand only when left is null</td><td>Safe default value</td></tr>
+  <tr><td><code>?.</code></td><td>Null-aware member access</td><td>Skip a member call when the receiver is null</td></tr>
+  <tr><td><code>!</code></td><td>Non-null assertion</td><td>Only when non-null is guaranteed; wrong assumptions fail at runtime</td></tr>
+</table>
+<h3>Small operators that show up in output questions</h3>
+<pre><code>7 / 2   // 3.5: double division
+7 ~/ 2  // 3: integer (truncating) division
+7 % 2   // 1: remainder
+x is String     // runtime type test
+x is! String    // negated type test</code></pre>
+<p>Be able to trace <code>if</code>/<code>else</code>, loops, interpolation (<code>'Hello $name'</code>), and simple comparisons without mentally skipping a line. Dart collection literals infer types from their values in common cases.</p>
+<div class="card bad"><span class="lbl">Null-safety traps</span><ul>
+  <li><code>String? s;</code> is not the same as <code>String s = '';</code>.</li>
+  <li><code>s ?? 'none'</code> does not replace an empty string; it replaces <em>null</em>.</li>
+  <li><code>s!</code> does not safely convert null. It says “trust me,” and a wrong guess raises a runtime error.</li>
+</ul></div>
+<p class="breath">unit 2 · practise reading every symbol in a short snippet</p>
+
+<div class="chapmark" id="s3"><span class="n">Unit 3</span><span class="lec">Slides · Functions and collections</span>
+<h2>Functions, collections, errors, and async</h2></div>
+<h3>Function signatures and callbacks</h3>
+<pre><code>String greet(String name) => 'Hi, $name';   // arrow function
+
+void log(String message, [int level = 1]) { // optional positional
+  print('$level: $message');
+}
+
+void show({required String title, int copies = 1}) { // named
+  print('$title × $copies');
+}
+
+void applyToBooks(List&lt;String&gt; books, bool Function(String) keep) {
+  print(books.where(keep).toList());
+}</code></pre>
+<p>Positional arguments are matched by order. Named arguments are called by name; <code>required</code> means the caller must supply that named argument. A closure is a function that can retain access to variables from the scope where it was created.</p>
+<pre><code>int Function() makeCounter() {
+  var count = 0;
+  return () =&gt; ++count; // returned function remembers count
+}
+final next = makeCounter();
+next(); // 1
+next(); // 2</code></pre>
+<h3>Collection operators: know the result shape</h3>
+<table>
+  <tr><th>Method</th><th>What it does</th><th>Shape/result</th></tr>
+  <tr><td><code>map</code></td><td>Transforms each element</td><td>Iterable of transformed values; often call <code>.toList()</code></td></tr>
+  <tr><td><code>where</code></td><td>Keeps elements matching a predicate</td><td>Filtered iterable; often call <code>.toList()</code></td></tr>
+  <tr><td><code>reduce</code></td><td>Combines elements using the first element as the initial accumulator</td><td>One value; no explicit initial value, so the collection must be non-empty</td></tr>
+  <tr><td><code>fold</code></td><td>Combines from a supplied starting value</td><td>One value; works naturally with a chosen initial value</td></tr>
+  <tr><td><code>sort</code></td><td>Orders a list in place</td><td>Mutates the receiver; copy first to preserve original</td></tr>
+  <tr><td><code>Set</code></td><td>Stores unique values</td><td>Supports union, intersection, and difference</td></tr>
+  <tr><td><code>Map</code></td><td>Stores key → value pairs</td><td>Look up by key, e.g. <code>stock[title]</code></td></tr>
+</table>
+<pre><code>final nums = [1, 2, 3, 4, 5];
+nums.where((n) =&gt; n.isEven).toList(); // [2, 4]
+nums.fold(100, (sum, n) =&gt; sum + n); // 115
+
+final sorted = [...nums]..sort();   // sort a copy
+final unique = &lt;String&gt;{'Dart', 'Dart', 'Flutter'}; // {'Dart', 'Flutter'}</code></pre>
+<div class="cols">
+  <div class="col ok"><h5>fold</h5><pre><code>items.fold(0,
+  (sum, item) =&gt; sum + item.price)</code></pre><p>Explicit starting value; can produce a different result type.</p></div>
+  <div class="col no"><h5>reduce</h5><pre><code>items
+  .map((x) =&gt; x.price)
+  .reduce((a, b) =&gt; a + b)</code></pre><p>Starts at the first item; empty input is a problem.</p></div>
+</div>
+<h3>Exceptions and asynchronous work</h3>
+<pre><code>try {
+  final amount = int.parse(text);
+  print(amount);
+} on FormatException catch (error) {
+  print('Invalid number: $error');
+} finally {
+  print('This cleanup/reporting step runs either way.');
+}
+
+Future&lt;String&gt; loadName() async {
+  final name = await fetchName();
+  return name;
+}</code></pre>
+<p><code>async</code> makes a function return a <code>Future</code>. <code>await</code> waits for the future’s value inside an async function. Without <code>await</code>, code receives a Future object rather than the resolved value. Handle errors around the awaited operation; do not assume asynchronous work has already completed.</p>
+<div class="card good"><span class="lbl">Lab connection</span><p>The Course Roster lab directly rehearses named/optional arguments, callbacks, closures, recursion, <code>map</code>/<code>where</code>/<code>reduce</code>/<code>fold</code>, sorting without damaging the original, maps, sets, generics, exceptions, and <code>Future</code>/<code>async</code>/<code>await</code>.</p></div>
+<p class="breath">unit 3 · learn what each collection method returns</p>
+
+<div class="chapmark" id="s4"><span class="n">Unit 4</span><span class="lec">Slides · Object-oriented Dart</span>
+<h2>Classes, constructors, and data encapsulation</h2></div>
+<p>A class describes fields and behavior; each instance has its own instance state. Constructors initialize that state and can enforce valid object creation.</p>
+<pre><code>class MenuItem {
+  final String name;
+  final int price;
+
+  const MenuItem(this.name, this.price);
+  MenuItem.free(this.name) : price = 0;
+
+  factory MenuItem.fromCode(String code) {
+    if (code == 'WATER') return MenuItem.free('Water');
+    return MenuItem(code, 100);
+  }
+}</code></pre>
+<table>
+  <tr><th>Feature</th><th>What to recognize/write</th></tr>
+  <tr><td>Field-formal parameter</td><td><code>MenuItem(this.name, this.price)</code> initializes fields directly</td></tr>
+  <tr><td>Named constructor</td><td><code>MenuItem.free(...)</code> offers another named construction path</td></tr>
+  <tr><td>Initializer list</td><td>Code after <code>:</code> initializes final fields or asserts conditions before the constructor body</td></tr>
+  <tr><td>Factory constructor</td><td>Can choose an existing instance or a subtype; it need not create a fresh object directly</td></tr>
+  <tr><td>Getter</td><td>Computed/readable property, e.g. <code>int get total =&gt; price * quantity;</code></td></tr>
+  <tr><td>Setter</td><td>Controlled assignment through a method-like property; store data separately (often in <code>_balance</code>)</td></tr>
+  <tr><td><code>static</code></td><td>Belongs to the class, not each object</td></tr>
+</table>
+<h3>Encapsulation and a safe setter</h3>
+<pre><code>class Wallet {
+  int _balance = 0;
+
+  int get balance =&gt; _balance;
+  set balance(int value) {
+    if (value &lt; 0) throw ArgumentError('balance cannot be negative');
+    _balance = value;
+  }
+}</code></pre>
+<div class="card warn"><span class="lbl">Constructor and setter pitfalls</span><ul>
+  <li>An initializer list runs before the constructor body. It cannot read another instance field as though the new object were already fully initialized; use constructor parameters or a factory when appropriate.</li>
+  <li>Do not name a setter the same as a backing field and assign to itself: <code>set width(v) { width = v; }</code> recurses. Keep backing storage separate, such as <code>_width</code>.</li>
+  <li>A <code>final</code> field cannot be reassigned after initialization.</li>
+</ul></div>
+<p class="breath">unit 4 · be ready to write a small class, not just define one</p>
+
+<div class="chapmark" id="s5"><span class="n">Unit 5</span><span class="lec">Slides · OOP relationships</span>
+<h2>Inheritance, contracts, mixins, and enums</h2></div>
+<p>Three Dart class relationships are easy to confuse. Learn the exact difference, then practise applying the right relationship to a short scenario.</p>
+<table>
+  <tr><th>Syntax</th><th>Meaning</th><th>Method bodies</th><th>Multiple?</th></tr>
+  <tr><td><code>extends A</code></td><td>Subclass inherits from one superclass</td><td>Inherits ready-made implementations; can override</td><td>One superclass</td></tr>
+  <tr><td><code>with M</code></td><td>Mixes reusable behavior into a class</td><td>Receives concrete mixin behavior</td><td>Can list multiple mixins</td></tr>
+  <tr><td><code>implements A</code></td><td>Promises to provide a type’s interface</td><td>Must implement all required instance members</td><td>Can implement multiple interfaces</td></tr>
+</table>
+<pre><code>abstract class Animal {
+  void move();
+  String sound() =&gt; '...';
+}
+
+mixin CanFly {
+  void fly() =&gt; print('flying');
+}
+
+class Bird extends Animal with CanFly {
+  @override
+  void move() =&gt; print('flap');
+}
+
+class Plane implements CanFly {
+  @override
+  void fly() =&gt; print('propellers on');
+}</code></pre>
+<p>An <code>abstract class</code> cannot be instantiated directly and can declare a contract plus shared implementation. An interface is a promise about available members. In Dart, every class also defines an implicit interface; <code>implements</code> does not inherit method bodies.</p>
+<h3>More OOP tools from the slides and labs</h3>
+<ul>
+  <li><strong><code>super</code> and <code>@override</code>:</strong> call parent behavior where needed and explicitly mark a replacement method.</li>
+  <li><strong>Enums:</strong> define a fixed set of choices. Enhanced enums may have fields, constructors, and methods; use <code>values</code> to inspect all choices.</li>
+  <li><strong>Extensions:</strong> add helper methods to an existing type without changing or subclassing it.</li>
+  <li><strong>Equality:</strong> if custom <code>==</code> is defined, also implement <code>hashCode</code> consistently when values are used in sets/maps.</li>
+  <li><strong><code>static</code>:</strong> class-level counters/helpers; the lab uses a constructor counter and a shared fee cap as examples.</li>
+</ul>
+<div class="card good"><span class="lbl">Match the scenario</span><p>Bird and Plane need the same <code>fly()</code> implementation but do not share an “is-a” parent → a mixin fits. A class that must offer a capability but has its own implementation → use an interface/ <code>implements</code>. A Cat that is an Animal → inheritance / <code>extends</code>.</p></div>
+<p class="breath">unit 5 · decide whether the task asks for “is-a”, reusable behavior, or a contract</p>
+
+<div class="chapmark" id="s6"><span class="n">Unit 6</span><span class="lec">Slides · Breaking into Flutter</span>
+<h2>Flutter widgets, state, and lifecycle</h2></div>
+<p>Flutter UI is a tree of widgets. Widgets are immutable descriptions of the interface. State that can change over time lives in a <code>State</code> object, not in mutable fields on a widget.</p>
+<pre><code>void main() =&gt; runApp(const MyApp());
+
+class Greeting extends StatelessWidget {
+  const Greeting({super.key});
+  @override
+  Widget build(BuildContext context) =&gt; const Text('Hello');
+}
+
+class Counter extends StatefulWidget {
+  const Counter({super.key});
+  @override
+  State&lt;Counter&gt; createState() =&gt; _CounterState();
+}
+
+class _CounterState extends State&lt;Counter&gt; {
+  int count = 0;
+  @override
+  Widget build(BuildContext context) =&gt; Text('$count');
+}</code></pre>
+<p>Use <code>StatelessWidget</code> when the widget’s output depends only on its inputs and context. Use <code>StatefulWidget</code> when it owns local mutable state or lifecycle work. A stateful widget is the immutable configuration; its paired <code>State&lt;T&gt;</code> object holds the changing data.</p>
+<h3>Why and how <code>setState</code> works</h3>
+<pre><code>onPressed: () {
+  setState(() {
+    count++;
+  });
+}</code></pre>
+<p>Changing a variable by itself does not ask Flutter to redraw. <code>setState</code> marks that state as changed and schedules a rebuild. The state change belongs inside its callback. A rebuild does not mean every object in the app is recreated from scratch.</p>
+<h3>Lifecycle order for a timer-backed State</h3>
+<pre><code>State created
+   ↓
+initState()       once; call super.initState() first
+   ↓
+build()           may run many times
+   ↓
+timer callback → setState() → another build()
+   ↓
+dispose()         cancel timer; call super.dispose() last</code></pre>
+<pre><code>late final Timer _timer;
+
+@override
+void initState() {
+  super.initState();
+  _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+    setState(() {});
+  });
+}
+
+@override
+void dispose() {
+  _timer.cancel();
+  super.dispose();
+}</code></pre>
+<div class="card bad"><span class="lbl">Lifecycle traps</span><ul>
+  <li><code>initState</code> runs once for a State object; <code>build</code> can run repeatedly.</li>
+  <li>Do not start a recurring timer in <code>build</code>; rebuilding could create repeated timers.</li>
+  <li>Cancel subscriptions/timers in <code>dispose</code> so callbacks do not outlive the widget.</li>
+  <li>Call <code>super.initState()</code> first and <code>super.dispose()</code> last.</li>
+</ul></div>
+<p class="breath">unit 6 · memorise lifecycle by cause and effect, not as isolated names</p>
+
+<div class="chapmark" id="s7"><span class="n">Unit 7</span><span class="lec">Slides · Tree, composition, and keys</span>
+<h2>BuildContext, composition, and keys</h2></div>
+<p>Flutter reconciles new widget descriptions with the existing element tree. A build creates new immutable widget objects, but matching elements and their State can be retained. <code>BuildContext</code> identifies a widget’s location in that tree and is used to find inherited information and navigate among ancestors.</p>
+<div class="card def"><span class="lbl">Composition over inheritance</span><p>Build a screen from small widgets that contain other widgets. Prefer combining reusable pieces (for example, a styled button inside a card) over making a deep custom subclass hierarchy just to share layout or appearance.</p></div>
+<h3>Why keys matter in reordered lists</h3>
+<pre><code>Tile('A', key: const ValueKey('A')),
+Tile('B', key: const ValueKey('B')),
+
+setState(() {
+  tiles = tiles.reversed.toList();
+});</code></pre>
+<p>Without keys, Flutter generally matches same-type widgets by their position. When stateful tiles reorder, the existing State may stay with a slot rather than with the logical item. A stable key tells Flutter which child is which, so the tile’s tap count follows that item.</p>
+<table>
+  <tr><th>What you see</th><th>Likely explanation/fix</th></tr>
+  <tr><td>Tap count changes on the wrong tile after swapping</td><td>Add a stable identity key such as <code>ValueKey(item.id)</code> to each repeated stateful child</td></tr>
+  <tr><td>App shows new value after parent state changes</td><td><code>setState</code> triggered a rebuild and the widget tree was reconciled</td></tr>
+  <tr><td>Need access to a theme, navigator, or inherited value</td><td>Use the appropriate API with the relevant <code>BuildContext</code></td></tr>
+</table>
+<div class="card warn"><span class="lbl">Key quality matters</span><p>Use a key derived from stable item identity, not the current index when items can reorder. A unique key is only helpful if it remains attached to the same logical item.</p></div>
+<p class="breath">unit 7 · state has an identity; keys help preserve it through movement</p>
+
+<div class="chapmark" id="s8"><span class="n">Unit 8</span><span class="lec">Slides · Widgets, layout, and navigation</span>
+<h2>Row, Column, flex, Stack, and Container</h2></div>
+<p>Flutter layout follows constraints: parents pass constraints down, children choose a size within them, and parents position children. A <code>Row</code> lays out horizontally; a <code>Column</code> vertically. Main-axis and cross-axis meanings rotate with the widget.</p>
+<table>
+  <tr><th>Widget</th><th>Main axis</th><th>Cross axis</th></tr>
+  <tr><td><code>Row</code></td><td>Horizontal (left ↔ right)</td><td>Vertical (top ↕ bottom)</td></tr>
+  <tr><td><code>Column</code></td><td>Vertical (top ↕ bottom)</td><td>Horizontal (left ↔ right)</td></tr>
+</table>
+<h3>Alignment and flexible space</h3>
+<ul>
+  <li><code>MainAxisAlignment.start</code> packs children at the beginning; <code>end</code> at the end; <code>center</code> centers them.</li>
+  <li><code>spaceBetween</code> puts the first and last child at the ends and divides the remaining gaps between children.</li>
+  <li><code>Expanded(flex: n)</code> takes a tight share of the remaining main-axis space. Flex values are weights, not pixel widths.</li>
+  <li><code>Flexible</code> lets its child use its share but can allow it to be smaller; <code>Expanded</code> is the tight-fit form.</li>
+</ul>
+<pre><code>Row(children: [
+  const SizedBox(width: 100),
+  Expanded(flex: 1, child: X()),
+  Expanded(flex: 2, child: Y()),
+])
+
+available width = 400 - 100 = 300
+total flex = 1 + 2 = 3
+X = 300 × 1/3 = 100 px
+Y = 300 × 2/3 = 200 px</code></pre>
+<h3>Overlay and decoration</h3>
+<pre><code>Stack(
+  children: [
+    const SizedBox(width: 300, height: 120),
+    const Positioned(
+      top: 10,
+      right: 20,
+      child: Icon(Icons.star, size: 24),
+    ),
+  ],
+)</code></pre>
+<p>For a 300-pixel-wide Stack and a 24-pixel-wide icon, <code>right: 20</code> gives a left edge of <code>300 − 20 − 24 = 256 px</code>. <code>top: 10</code> gives a top edge of 10 px. <code>Positioned</code> must be a child of a <code>Stack</code>.</p>
+<p><code>Container</code> uses <code>padding</code> inside its child and <code>margin</code> outside its box. If using <code>decoration: BoxDecoration(...)</code>, set the color in the decoration. Do not provide both <code>color:</code> and <code>decoration:</code> to the same Container.</p>
+<div class="card warn"><span class="lbl">Common layout repairs</span><ul>
+  <li>Long text in a Row overflows → wrap a text child with <code>Expanded</code> or <code>Flexible</code>, or choose a scrollable/wrapping layout.</li>
+  <li><code>Expanded</code> outside a <code>Row</code>, <code>Column</code>, or <code>Flex</code> → wrong parent/constraint context.</li>
+  <li>Use <code>SizedBox</code> for a simple fixed gap; do not add a heavier widget when a gap is all you need.</li>
+</ul></div>
+<h3>Navigation vocabulary from the slide set</h3>
+<p>A route is a screen destination. A router can map a path (including a parameter such as <code>:id</code>) to a screen. Distinguish replacing/navigating to a destination from pushing a new page onto a navigation stack; know the behavior used in the course example if a question names a specific API.</p>
+<p class="breath">unit 8 · compute leftover space before applying flex ratios</p>
+
+<div class="chapmark" id="s9"><span class="n">Unit 9</span><span class="lec">Slides · State management and REST</span>
+<h2>Shared state, Riverpod, REST, and JSON</h2></div>
+<p><code>setState</code> is local to one State object. When independent screens must see and update the same cart/counter, shared state avoids duplicating unrelated copies or threading values through many layers.</p>
+<table>
+  <tr><th>Approach</th><th>Core idea</th><th>Course example</th></tr>
+  <tr><td>Local <code>setState</code></td><td>State owned by one widget’s State object</td><td>Counter screen</td></tr>
+  <tr><td>Lift state up</td><td>Move shared state to a common ancestor and pass data/callbacks down</td><td>Works for a modest tree; can create prop/callback chains</td></tr>
+  <tr><td>Riverpod</td><td>Provider exposes shared state/actions; consumers read or watch it</td><td><code>ProviderScope</code> at app root; <code>ref.watch</code> to observe</td></tr>
+</table>
+<pre><code>// Shape of the Riverpod flow from the lecture:
+ProviderScope
+  └─ ConsumerWidget.build(context, ref)
+       ├─ ref.watch(provider)   // read + rebuild when it changes
+       └─ ref.read(provider.notifier).action() // perform an update</code></pre>
+<p><code>ref.watch</code> subscribes the widget so it rebuilds when the provider value changes. <code>ref.read</code> is commonly used to access an action without subscribing in that expression. Provider APIs vary by provider type; follow the exact package/API version shown in your project/lab.</p>
+<h3>REST request → response → UI</h3>
+<pre><code>HTTP request (method + URL)
+        ↓
+REST API response (status + JSON body)
+        ↓ decode JSON
+Dart Map / List / model
+        ↓
+UI: loading → data OR error</code></pre>
+<ul>
+  <li><strong>GET</strong> retrieves a resource; the response body is not automatically a Dart model.</li>
+  <li>JSON objects decode to map-like values and JSON arrays to lists. Validate/convert values before using them as typed fields.</li>
+  <li>Model the async UI states explicitly: loading, success/data, and error (and empty data if relevant).</li>
+  <li>Do not start network requests on every rebuild without a lifecycle/future/provider strategy.</li>
+</ul>
+<div class="card good"><span class="lbl">Lab connection</span><p>The State and REST lab practises setting up Riverpod and <code>ProviderScope</code>, reading state through consumers, and sharing a cart between screens. The merged slide set continues from that shared-state example into REST and JSON. The sample midterm weights local state/lifecycle and layouts more explicitly, but the wider merged course content is fair study material unless your instructor has narrowed the scope.</p></div>
+<p class="breath">unit 9 · distinguish local rebuild state from shared async data</p>
+
+<div class="chapmark" id="pattern"><span class="n">Exam strategy</span><span class="lec">Source · Fall 2026 sample</span>
+<h2>Professor’s paper pattern and marking habits</h2></div>
+<p>The provided midterm states <strong>90 minutes, 35 marks, closed book</strong> and specifies Dart 3 / Flutter 3. It awards whole marks and makes precision visible: some items require an exact construct set, both parts of a bug-fix answer, or a correctly formed snippet.</p>
+<table>
+  <tr><th>Paper question</th><th>Marks</th><th>Pattern</th><th>How to earn the marks</th></tr>
+  <tr><td>Q1</td><td>5</td><td>Match tasks to a bank of Flutter/Dart terms</td><td>Write the requested letter; use each at most once if stated</td></tr>
+  <tr><td>Q2</td><td>5</td><td>Fill five code blanks</td><td>Use the exact keyword/operator/API implied by comments</td></tr>
+  <tr><td>Q3</td><td>3</td><td>Trace three print outputs</td><td>Include collection brackets/order and null fallback accurately</td></tr>
+  <tr><td>Q4</td><td>4</td><td>Order lifecycle events</td><td>Put initialization/build/tick/disposal in causal order</td></tr>
+  <tr><td>Q5</td><td>3</td><td>Classify advantage/disadvantage/false statement</td><td>Separate a real drawback from a statement that is simply untrue</td></tr>
+  <tr><td>Q6</td><td>3</td><td>Identify whether each statement applies to extends/with/implements</td><td>Give the exact complete set; order does not matter</td></tr>
+  <tr><td>Q7</td><td>5</td><td>Layout diagram + flex arithmetic + Stack coordinates</td><td>Show space remaining and the ratio/edge calculation</td></tr>
+  <tr><td>Q8</td><td>3</td><td>Find one buggy line and name its fix</td><td>Both line number and matching fix must be correct</td></tr>
+  <tr><td>Q9</td><td>4</td><td>Write a small StatelessWidget</td><td>Class, field, const constructor, override/build, and requested widget tree</td></tr>
+</table>
+<div class="card warn"><span class="lbl">Marking signals in the answer key</span><ul>
+  <li>Q1: one mark per correct match; unused bank entries are intentional distractors.</li>
+  <li>Q2: one mark per blank; the key rejects a different construct when the prompt is specific.</li>
+  <li>Q3: list brackets matter; the key allows the right elements without brackets only as a stated exception.</li>
+  <li>Q6: a response must be the exact set, not just one true relationship.</li>
+  <li>Q7: flex marks split between each child’s width; Stack marks split between each coordinate.</li>
+  <li>Q8: line and fix both need to be right for the point.</li>
+  <li>Q9: “close” code is accepted, but required structure and behavior still have to appear.</li>
+</ul></div>
+<p><strong>Time budget suggestion:</strong> reserve about 8 minutes for each 5-mark question, 4–6 minutes for short questions, and 10–12 minutes for Q9; leave the last 5 minutes to check numbering, units, and code syntax. Adjust this to your own pace.</p>
+
+<div class="chapmark" id="labs"><span class="n">Task practice</span><span class="lec">Source · Merged lab tasks</span>
+<h2>What the lab tasks are training you to do</h2></div>
+<p>The labs are not just long builds: they provide reusable exam-sized operations. Practise writing the small construct cold, then explain why it works.</p>
+<table>
+  <tr><th>Lab set</th><th>Task patterns in the merged materials</th><th>Exam conversion</th></tr>
+  <tr><td>Dart fundamentals / Course Roster</td><td>Parameter forms, callbacks, closures, recursion, collection transforms, fold/reduce, maps/sets, generics, exceptions, Futures</td><td>Predict output; fill a missing operator/method; choose whether mutation occurs</td></tr>
+  <tr><td>Campus Cafe</td><td>Classes, constructors, named/factory constructors, initializer lists, assertions, getters/setters, parsing text, receipt/fold capstone</td><td>Complete constructor blanks; find a setter/initializer bug; write a small class</td></tr>
+  <tr><td>Campus Library</td><td>Inheritance, override, abstract class, implements, mixins, enhanced enum, extension, equality/hashCode, static members</td><td>Choose extends/with/implements; explain exact behavior or complete a class</td></tr>
+  <tr><td>Team Board / layout lab</td><td>Timer lifecycle, BuildContext, composition, stateful tiles and keys, axes/alignment, overflow, Expanded/Flexible, Container, Stack</td><td>Order lifecycle; debug one line; calculate widths/coordinates; write a widget</td></tr>
+  <tr><td>State and REST lab</td><td>ProviderScope, providers/consumers, shared cart across screens, HTTP/JSON</td><td>Trace which screen updates; distinguish watch/read; identify loading/data/error flow</td></tr>
+</table>
+<h3>High-yield lab drills (do these on paper)</h3>
+<ol>
+  <li>Write a positional function and a named-parameter function that each compute an order total.</li>
+  <li>Given a list of prices, filter prices above a threshold, map them to tax-inclusive totals, and fold to one sum.</li>
+  <li>Write one class with a final field, a named constructor, a getter, and a guarded setter.</li>
+  <li>Explain whether an example should use <code>extends</code>, <code>with</code>, or <code>implements</code>; write the minimal valid declaration.</li>
+  <li>Write <code>initState</code> and <code>dispose</code> around a periodic timer, in the right order.</li>
+  <li>Given a Row width and fixed child widths, calculate the remaining space and flex allocations.</li>
+  <li>Explain the state movement difference when swapping keyed vs unkeyed stateful tiles.</li>
+  <li>Place a <code>Positioned</code> child in a Stack and calculate its coordinates from right/top constraints.</li>
+  <li>Sketch the UI states for an HTTP request: loading, success, and error.</li>
+</ol>
+<div class="card good"><span class="lbl">How to practise from a task prompt</span><p>Cover the lab’s worked solution, identify its input/output and invariant, write the smallest relevant code fragment, run through one normal and one edge case mentally, then compare. The instructor’s paper asks compact fundamentals rather than entire lab-sized applications.</p></div>
+
+<div class="chapmark" id="recall"><span class="n">Last-pass reference</span><span class="lec">Terms and calculations</span>
+<h2>Fast recall sheet and common traps</h2></div>
+<table>
+  <tr><th>Prompt clue</th><th>Recall</th></tr>
+  <tr><td>“one parent plus a mixin”</td><td><code>class C extends Parent with Mixin</code></td></tr>
+  <tr><td>“share behavior between unrelated classes”</td><td>A mixin (<code>with</code>) is the likely answer</td></tr>
+  <tr><td>“must write all method bodies”</td><td><code>implements</code></td></tr>
+  <tr><td>“run once after State creation”</td><td><code>initState()</code></td></tr>
+  <tr><td>“stop the periodic timer”</td><td><code>timer.cancel()</code> in <code>dispose()</code></td></tr>
+  <tr><td>“use fallback only if nullable value is null”</td><td><code>??</code></td></tr>
+  <tr><td>“unique identity follows stateful list item”</td><td>Stable <code>ValueKey</code></td></tr>
+  <tr><td>“only a gap”</td><td><code>SizedBox</code></td></tr>
+  <tr><td>“exact share of remaining Row space”</td><td><code>Expanded</code>; divide leftover by total flex weight</td></tr>
+  <tr><td>“overlay, anchored from an edge”</td><td><code>Stack</code> + <code>Positioned</code></td></tr>
+</table>
+<div class="card def">
+  <span class="lbl">Two layout formulas</span>
+  <pre><code>remaining = parent main-axis size − fixed children − other fixed gaps
+child share = remaining × child flex / sum(all flex values)
+
+left from right edge = stack width − right inset − child width
+top from top edge    = top inset</code></pre>
+</div>
+<div class="card bad"><span class="lbl">Answers that lose easy marks</span><ul>
+  <li>Writing “mixin” without <code>with</code> when the blank asks for a keyword.</li>
+  <li>Putting <code>initState</code> after the first build, or forgetting to dispose resources.</li>
+  <li>Writing “Expanded can shrink” (it uses tight fit); that property belongs to Flexible’s loose fit behavior.</li>
+  <li>Giving only the line number or only the fix for a two-part bug question.</li>
+  <li>Computing a flex ratio from the full screen width instead of the leftover width.</li>
+  <li>Putting <code>Positioned</code> under a <code>Row</code> rather than inside a <code>Stack</code>.</li>
+  <li>Returning a <code>Text</code> from a widget question when the requested structure is a <code>Row</code> with the required children.</li>
+</ul></div>
+
+<div class="chapmark" id="mock"><span class="n">Timed practice</span><span class="lec">35 marks · 90 minutes</span>
+<h2>Mock midterm in the professor’s format</h2></div>
+<div class="card warn"><span class="lbl">Instructions</span><p>Closed-book attempt. Answer each subpart. Where a single letter/word is requested, give exactly one. For Q6, give the complete set of letters. For Q8, include both the buggy line and its fix. The answers are hidden below the paper.</p></div>
+
+<h3>Question 1 · Matching [5]</h3>
+<p>Choose the best item from the bank for each task. Use each letter at most once; some are unused.</p>
+<pre><code>A mixin     B initState()     C Expanded     D ValueKey
+E SizedBox  F dispose()       G ??            H enum</code></pre>
+<ol type="a">
+  <li>Share one concrete <code>fly()</code> implementation between unrelated classes.</li>
+  <li>Run setup once when a State object is first created.</li>
+  <li>Give a Row child exactly its weighted share of the leftover width.</li>
+  <li>Keep a stateful tile’s identity when the list is reordered.</li>
+  <li>Add a fixed 12-pixel gap and nothing else.</li>
+</ol>
+
+<h3>Question 2 · Fill the blanks [5]</h3>
+<p>Write the missing keyword, operator, or method name.</p>
+<pre><code>class Sparrow ____(1)____ Bird ____(2)____ CanFly {}
+String label = nickname ____(3)____ 'Guest';
+
+void initState() {
+  super.initState();
+  timer = Timer.____(4)____(const Duration(seconds: 1), (_) =&gt; setState(() {}));
+}
+void dispose() {
+  timer.____(5)____();
+  super.dispose();
+}</code></pre>
+
+<h3>Question 3 · Trace the output [3]</h3>
+<pre><code>final values = [2, 3, 4, 5];
+String? alias;
+print(values.where((n) =&gt; n.isEven).toList());       // (a)
+print(values.fold(10, (sum, n) =&gt; sum + n));         // (b)
+print(alias ?? 'anonymous');                         // (c)</code></pre>
+
+<h3>Question 4 · Lifecycle order [4]</h3>
+<p>A Clock widget is inserted, builds, its periodic timer fires once, then the Clock is removed. Number the events 1–4 in the order they happen.</p>
+<ol type="a">
+  <li>The timer callback calls <code>setState()</code>.</li>
+  <li><code>dispose()</code> runs and cancels the timer.</li>
+  <li><code>build()</code> runs for the first time.</li>
+  <li><code>initState()</code> runs.</li>
+</ol>
+
+<h3>Question 5 · Advantage, disadvantage, or not true? [3]</h3>
+<p>Write A for an advantage, D for a disadvantage, or X if the statement is simply not true.</p>
+<ol type="a">
+  <li>A const widget can be reused when its configuration is unchanged.</li>
+  <li>An <code>Expanded</code> child can choose to occupy less than its full allocated share.</li>
+  <li>A wrong non-null assertion (<code>!</code>) can produce a runtime failure.</li>
+</ol>
+
+<h3>Question 6 · Inheritance constructs [3]</h3>
+<p>For each statement, write all letters that apply: E = <code>extends</code>, W = <code>with</code>, I = <code>implements</code>. A mark requires the exact set.</p>
+<ol type="a">
+  <li>Receives ready-made concrete behavior from the referenced class/construct.</li>
+  <li>A class may list more than one of these in its declaration.</li>
+  <li>Requires the class to provide the interface’s method implementations.</li>
+</ol>
+
+<h3>Question 7 · Layout [5]</h3>
+<ol type="a">
+  <li>[1] Which alignment puts A at the left edge, C at the right edge, and equal gaps between A–B and B–C in a Row?</li>
+  <li>[2] A Row is 420 px wide and contains a fixed 120-px child, followed by <code>Expanded(flex: 2)</code> and <code>Expanded(flex: 1)</code>. Find each Expanded child’s width.</li>
+  <li>[2] A 320 × 140 Stack contains a 30 × 30 child positioned at <code>right: 18</code>, <code>top: 12</code>. Give the child’s left and top coordinates from the Stack’s top-left.</li>
+</ol>
+
+<h3>Question 8 · Find the bug [3]</h3>
+<p>Each snippet has one bug. Write the buggy line and its fix.</p>
+<p><strong>(a)</strong> Tapping does not update the displayed count.</p>
+<pre><code>1  onPressed: () {
+2    count++;
+3  },</code></pre>
+<p><strong>(b)</strong> The widget fails an assertion when built.</p>
+<pre><code>1  Container(
+2    color: Colors.blue,
+3    decoration: const BoxDecoration(shape: BoxShape.circle),
+4  )</code></pre>
+<p><strong>(c)</strong> After swapping stateful items, tap counts stay at their old positions.</p>
+<pre><code>1  var tiles = [Tile('A'), Tile('B')];
+2  setState(() =&gt; tiles = tiles.reversed.toList());</code></pre>
+<p>Fix bank: (a) wrap the state change in <code>setState</code>; (b) use only one of <code>color</code>/<code>decoration</code>; (c) give each tile a stable <code>ValueKey</code>; (d) put the change in <code>dispose</code>.</p>
+
+<h3>Question 9 · Write a widget [4]</h3>
+<p>Write a <code>StatelessWidget</code> named <code>CourseBadge</code> with one final <code>String</code> field <code>title</code> and a const constructor that accepts <code>title</code> and passes <code>key</code> using <code>super.key</code>. Its <code>build</code> returns a <code>Row</code> with a star icon and a <code>Text</code> showing <code>title</code>; allow long text to wrap instead of overflowing.</p>
+
+<details>
+  <summary>Open the complete answer key and working</summary>
+  <div class="ans">
+    <h4>Q1</h4><p>(a) A &nbsp; (b) B &nbsp; (c) C &nbsp; (d) D &nbsp; (e) E</p>
+    <h4>Q2</h4><p>(1) <code>extends</code> &nbsp; (2) <code>with</code> &nbsp; (3) <code>??</code> &nbsp; (4) <code>periodic</code> &nbsp; (5) <code>cancel</code></p>
+    <h4>Q3</h4><p>(a) <code>[2, 4]</code> &nbsp; (b) <code>24</code> (10 + 2 + 3 + 4 + 5) &nbsp; (c) <code>anonymous</code></p>
+    <h4>Q4</h4><p>(a) 3 &nbsp; (b) 4 &nbsp; (c) 2 &nbsp; (d) 1. Initialization precedes the first build; the timer callback comes later; removal/disposal is last.</p>
+    <h4>Q5</h4><p>(a) A &nbsp; (b) X &nbsp; (c) D. <code>Expanded</code> uses tight fit for its allocation; a Flexible with loose fit can allow a child to be smaller.</p>
+    <h4>Q6</h4><p>(a) E, W &nbsp; (b) W, I &nbsp; (c) I. <code>extends</code> permits one superclass; multiple mixins or interfaces may be listed.</p>
+    <h4>Q7</h4><p>(a) <code>MainAxisAlignment.spaceBetween</code>. (b) Remaining width = 420 − 120 = 300; total flex = 3; flex-2 child = 200 px, flex-1 child = 100 px. (c) Left = 320 − 18 − 30 = 272 px; top = 12 px.</p>
+    <h4>Q8</h4><p>(a) Line 2: wrap <code>count++</code> in <code>setState(() { ... })</code>. (b) Line 2 or 3: use only one of <code>color</code> and <code>decoration</code>; either remove <code>color</code> or put the color inside <code>BoxDecoration</code>. (c) Line 1: attach a stable key to each tile, e.g. <code>Tile('A', key: const ValueKey('A'))</code> and likewise for B. Without keys, Flutter matches same-type children by position, so State does not follow the item.</p>
+    <h4>Q9</h4>
+<pre><code>class CourseBadge extends StatelessWidget {
+  final String title;
+
+  const CourseBadge({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Icon(Icons.star),
+        Expanded(child: Text(title)),
+      ],
+    );
+  }
+}</code></pre>
+    <p>For Q9, the essential marks are the correct class/field and const constructor, an overridden <code>build</code>, a <code>Row</code> containing both requested children, and a wrapping/space-constrained text child.</p>
+  </div>
+</details>
+
+<div class="chapmark" id="lastday"><span class="n">Before the exam</span><span class="lec">Checklist</span>
+<h2>Final self-check</h2></div>
+<ul class="checklist">
+  <li>I can explain the difference between <code>final</code>, <code>const</code>, <code>T?</code>, <code>??</code>, and <code>!</code>.</li>
+  <li>I can trace <code>where</code>, <code>map</code>, <code>fold</code>, and <code>reduce</code>, including collection shape and starting value.</li>
+  <li>I can write a small class and distinguish named/factory constructors, getters, and setters.</li>
+  <li>I can choose correctly among <code>extends</code>, <code>with</code>, and <code>implements</code>.</li>
+  <li>I can write the lifecycle order, start a timer in <code>initState</code>, call <code>setState</code>, and cancel in <code>dispose</code>.</li>
+  <li>I can explain why stateful reordered children need stable keys.</li>
+  <li>I can calculate flex widths from leftover space and Stack offsets from right/top.</li>
+  <li>I can fix a missing <code>setState</code>, conflicting Container properties, and a wrongly-parented <code>Positioned</code>.</li>
+  <li>I can write a short const StatelessWidget with correct field, constructor, override, and child tree.</li>
+  <li>I can describe the loading/data/error path for shared or REST-backed state.</li>
+</ul>
+
+<footer>
+  <p>Prepared from the local merged CS 442 slide, lab-task, and midterm-paper PDFs. The nine units are a study organization of the supplied slide topics; use your instructor’s announced scope if it differs. This guide is supplementary and does not replace the original materials.</p>
+</footer>
+</div>
+</body>
+</html>
