@@ -45,7 +45,7 @@ class LabApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(title: 'Study Tracker', home: HomePage());
-  }
+  } 
 }
 
 // Think: What is the difference between what runApp receives and what MaterialApp receives as home?
