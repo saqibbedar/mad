@@ -61,3 +61,14 @@ app.*.map.json
 **/mid/**/flutter/**/pubspec.lock
 **/mid/**/flutter/**/pubspec.yaml
 **/mid/**/flutter/**/README.md
+
+# ignore term project stuff
+**/term-project/ios
+**/term-project/macos
+**/term-project/test
+**/term-project/web
+**/term-project/windows
+**/term-project/linux
+**/term-project/android
+**/term-project/analysis_options.yaml
+**/term-project/.metadata
